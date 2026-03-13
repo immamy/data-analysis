@@ -28,7 +28,6 @@ Technology: **Python, requests, pandas, jieba, Matplotlib**
 
 5.Word frequency calculation.
 
-6.Generate word-cloud-plt, Bar-chart-plt, Pie-chart-plt.
-
+6.Generate word cloud.
 
 
