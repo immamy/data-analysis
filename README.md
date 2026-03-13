@@ -4,13 +4,17 @@ The repository includes the source code and output results such as images and .c
 
 Technology: **Python, Requests, Selenium, Pandas, Matplotlib, Jieba**
 
-<br>
-Projects:
+## Python Web Scraping Projects
+Developed multiple Python web scraping projects to collect and analyze online data.
 
-• [Google News](https://github.com/immamy/data-analysis/web-crawler-projects-Google-News.git)
+## Features
+- Built PTT comment crawler and generated word cloud using jieba and pandas.
+- Scraped interior design case image URLs and exported structured data to CSV.
+- Automated dynamic website data extraction using Selenium.
+- Implemented data visualization using matplotlib.
 
-• [Order](https://github.com/immamy/data-analysis/web-crawler-projects-Order.git)
-
-• [PTT](https://github.com/immamy/data-analysis/web-crawler-projects-PTT.git)
-
-• [HiLife](https://github.com/immamy/data-analysis/web-crawler-projects-HiLife.git)
+## Projects
+- [Google News](https://github.com/immamy/data-analysis/web-crawler-projects-Google-News.git)
+- [Order](https://github.com/immamy/data-analysis/web-crawler-projects-Order.git)
+- [PTT](https://github.com/immamy/data-analysis/web-crawler-projects-PTT.git)
+- [HiLife](https://github.com/immamy/data-analysis/web-crawler-projects-HiLife.git)
