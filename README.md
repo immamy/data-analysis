@@ -14,7 +14,7 @@ Developed multiple Python web scraping projects to collect and analyze online da
 - Implemented data visualization using matplotlib.
 
 ## Projects
-- [Google News](https://github.com/immamy/data-analysis/web-crawler-projects-Google-News.git)
-- [Order](https://github.com/immamy/data-analysis/web-crawler-projects-Order.git)
-- [PTT](https://github.com/immamy/data-analysis/web-crawler-projects-PTT.git)
-- [HiLife](https://github.com/immamy/data-analysis/web-crawler-projects-HiLife.git)
+- [Google News](https://github.com/immamy/data-analysis/tree/main/web-crawler-projects-Google-News)
+- [Order](https://github.com/immamy/data-analysis/tree/main/web-crawler-projects-Order)
+- [PTT](https://github.com/immamy/data-analysis/tree/main/web-crawler-projects-PTT)
+- [HiLife](https://github.com/immamy/data-analysis/tree/main/web-crawler-projects-HiLife)
