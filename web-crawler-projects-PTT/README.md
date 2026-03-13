@@ -22,11 +22,18 @@ Technology: **Python, requests, pandas, jieba, Matplotlib**
 
 ## Workflow
 1.Crawl PTT comments.
+
 2.Merge all comments into one text file.
+
 3.Remove punctuation.
+
 4.Remove stopwords.
+
 5.Chinese word segmentation.
+
 6.Word frequency calculation.
+
 7.Generate word cloud.
+
 
 
