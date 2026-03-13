@@ -19,10 +19,16 @@ Technology: **Python, requests, pandas, jieba, Matplotlib**
 
 ## Workflow
 1.Crawl Google News.
+
 2.Remove punctuation.
+
 3.Remove stopwords.
+
 4.Chinese word segmentation.
+
 5.Word frequency calculation.
+
 6.Generate word-cloud-plt, Bar-chart-plt, Pie-chart-plt.
+
 
 
