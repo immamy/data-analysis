@@ -1,0 +1,622 @@
+# R Analyze
+
+
+1.目錄
+- packages
+- datasets
+- 使用資料檔
+- class & typeof
+
+2.使用指令
+(a)變數
+- rm(list = ls())
+- names()
+- attach()
+- detach()
+
+(b)read
+- read.csv("file", sep=",")
+- read.table("file", sep="")
+
+(c)資料轉換
+- class()
+- str()
+
+(d)敘述性統計分析
+- summary()
+- head()
+- names()
+
+- dim()
+
+- rbind()
+
+- table()
+
+- group_by()
+
+- cut()
+
+- grep()
+
+- matrix()
+- array()
+
+- apply()、lapply()
+
+- sample()、rnorm()
+
+- mean()
+
+- sort()
+- unique()
+- length()
+
+- x[[1]]  # list列表
+- x[2]  # 向量- strsplit()
+
+- strsplit
+- paste()
+- substr()
+- rep()
+- seq()
+- split()
+- subset()
+
+- formula()
+- function(x) sum(x^2)
+
+(e)圖表分析
+- ggplot()
+- qqplot()
+- plot()
+- pairs()
+- boxplot()
+- barChart()
+- lineChart()
+- hist()
+- stem()
+- chartSeries()
+- candleChart()
+- curve()
+- lines()
+- abline()
+
+(f)相關係數/變異數分析/回歸分析
+- lm(y ~ x)
+- summary(lm(y ~ x))
+- cor.test(x, y) 
+- t.test(x, mu)
+
+(g)時間序列分析
+- aggregate()
+- start()
+- end()
+- frequency()
+
+(h)網頁結構
+- xmlRoot()
+
+
+
+# packages
+#install.packages("xts")
+#install.packages("dplyr")
+#install.packages("tibble")
+#install.packages("readxl")
+#install.packages("foreign")
+#install.packages("tree")
+#install.packages("readODS")
+#install.packages("XML")
+#install.packages("jsonlite")
+#install.packages("sas7bdat")
+#install.packages("haven")
+#install.packages("ggplot2")
+#install.packages("stats")
+#install.packages("quantmod")
+#install.packages("zoo")
+#install.packages("TTR")
+#install.packages("PerformanceAnalytics")
+
+library(xts)
+library(dplyr)
+library(tibble)
+library(readxl)
+library(foreign)
+library(tree)
+library(readODS)
+library(XML)
+library(jsonlite)
+library(sas7bdat)
+library(haven)
+library(ggplot2)
+library(stats)
+library(quantmod)
+library(zoo)
+library(TTR)
+library(PerformanceAnalytics)
+
+
+
+# datasets
+#library(help = "datasets")
+library(datasets)
+
+
+
+# 使用資料檔
+- birth.dat
+- ca.dat
+- crx.data
+- Forbes1986.data
+- sdn.xml
+- queryRVFile.xls
+- stock.xls
+- bank-full.csv
+- birth.csv
+- crime.csv
+- marketing-budget.csv
+- NH_CovidVaxProvider_20211003.csv
+- stock.csv
+- Titanic.csv
+- TSM.csv
+- tui.csv
+- Payment_and_value_of_care_-_Hospital.csv
+- Greenhousegases.ods
+- titanic.raw.rdata
+- cars.sas7bdat
+- bodyfat.sav
+- dealership.sav
+- SalarySurvey.sav
+- Payment_and_value_of_care_-_Hospital.xlsx
+- stock.xlsx
+- TSM.xlsx
+- banknote.txt
+- cereals.txt
+- crx.txt
+- homicides.txt
+- MensTrack.txt
+- motorcrash.txt
+- mtcars (datasets)
+- trees (datasets)
+- Titanic (datasets)
+- iris (datasets)
+- islands (datasets)
+- faithful (datasets)
+- cars (datasets)
+- AirPassengers (datasets)
+- fancy.dat (網路抓取資料)
+- youbike_immediate.json (網路抓取資料)
+
+
+
+# class類型:物件的類別
+# "numeric"  數值
+# "integer"  整數
+# "character"  字串
+# "logical" 布林 TRUE / FALSE
+# "factor"  類別變數
+# "data.frame"  資料表
+# "matrix"  矩陣
+# "array"  陣列
+# "list"  清單
+# "ts"  時間序列物件
+# "function"  函數物件
+# "table"  列聯表/計數表/頻率表
+# "Date"  日期
+# "POSIXct"  日期時間 用秒數儲存（適合計算、資料分析）
+# "POSIXlt"  日期時間 以 list 儲存（可拆成年月日等）
+
+
+
+# typeof類型:實際儲存資料的型態
+# "double"  數值 (預設數字) 3.14
+# "integer"  整數 1L
+# "character"  字串 "hello"
+# "logical"  布林值 TRUE FALSE
+# "complex"  複數 1+2i
+# "raw"  原始位元 as.raw(10)
+# "list"  列表 list(1,2,3)
+# "environment"  環境 new.env()
+# "closure"  函數 function(){}
+# "builtin"  內建函數 sum
+# "special"  特殊函數 if
+# "NULL"  空值 NULL
+# "symbol"  變數名稱 quote(x)
+# "language"  語法表達式 quote(x+1)
+# "pairlist"  參數列表 formals(function(x){})
+
+
+
+(a)變數
+#savehistory((file = "C:/Users/user/Desktop/test.Rhistory"))  # 儲存歷史紀錄
+#ls()  # 顯示所有變數
+#rm()  # 清除指定變數
+#rm(list = ls())  # 清除所有變數
+#names()  # 變數名稱
+#attach()  # 加入所有變數
+#detach()  # 去除所有變數
+#methods()  # 方法
+#search()  # 環境空間
+any(x < 0)  # are some values True
+all(x < 0)  # are all values True
+
+
+(b)read
+scan("網址.dat")
+fromJSON("網址.json")
+read.csv("路徑.csv")、read.csv("路徑.data")  # 預設sep=","
+read.table("路徑.csv")、read.table("路徑.txt")、read.table("路徑.dat")、read.table("路徑.data")  # 預設sep=""
+read_excel("路徑.xls")、read_excel("路徑.xlsx")
+read.fwf("路徑.dat")
+read.sas7bdat("路徑.sas7bdat")
+read.spss("路徑.sav")
+read_ods("路徑.ods")
+load("路徑.raw.rdata")
+readLines("路徑.txt")
+xmlTreeParse("路徑.xml")
+
+
+
+(c)資料轉換
+class()  # 物件類別  # 確認`資料`的資料型態(`class類型`)，進行資料轉換
+str()  # 資料結構  # 確認`變數`的儲存資料型態(`typeof類型`)，進行資料轉換
+typeof()  # 內部型別
+mode()  # 記憶體模式
+levels()  # 顯示factor層級
+as.xts()  # 轉成"xts"+"zoo"資料
+data.frame()  # 轉成"data.frame"資料
+as.character()  # 轉成"character"資料
+ts(x, start, frequency)  # 轉成"ts"資料
+as.Date(x, format = '%m/%d/%Y')  # 轉成"Date"資料
+as.POSIXct(x, format = '%m %d %Y %H:%M:%S')  # 轉成"POSIXct"+"POSIXt"資料
+
+
+(d)敘述性統計分析
+summary()  # 摘要
+head(mtcars)  # 前六筆資料
+tail(mtcars)  # 後六筆資料
+names(mtcars)  # 變數名稱
+view(mtcars)  # 資料檢視器
+
+
+dim(mtcars)  # 維度
+dimnames(mtcars)  # 列名+欄名(list列表)
+ncol(mtcars)  # 欄數(直行橫列)
+nrow(mtcars)  # 列數(直行橫列)
+colnames(mtcars)  # 欄名(直行橫列)
+rownames(mtcars)  # 列名(直行橫列)
+
+
+rbind(x, y)  # row資料合併 列堆疊(直行橫列)
+cbind(x, y)  # column資料合併 行堆疊(直行橫列)
+merge(x, y, by = "name", all = T)  # 合併兩個表格  # all = T，顯示NA值
+
+
+table()  # 列聯表
+ftable()  # 平面化列聯表
+margin.table()  # 計算指定維度總和
+prop.table()  # 計算比例表
+addmargins()  # 計算邊際總和
+
+
+group_by()  # 群組
+
+cut(x, breaks)  # 把連續資料分組
+
+grep(names, x)  # 集合
+
+
+matrix(1:6, 2, 3)  # 矩陣
+array(1:6, dim = c(2,3))  # 陣列
+
+matrix(x, nrow = 6, ncol = 4)  # 矩陣 依照行(直行橫列)
+matrix(x, nrow = 6, ncol = 4, byrow = TRUE)  # 矩陣 依照列(直行橫列)
+
+is.matrix(x)  # 判斷資料類別是否為矩陣
+as.matrix(x)  # 一維向量轉換為二維矩陣
+as.vector(x)  # 二維矩陣轉換一維向量
+
+z[2:3,]  # 列取得(直行橫列)
+z[,2:3]  # 行取得(直行橫列)
+z[-1,]  # 刪除矩陣的第一列
+z[,-3]  # 刪除矩陣的第三行
+z[,3, drop = FALSE]  # 矩陣格式轉為行向量
+
+colSums(z)  # 矩陣加總
+colMeans(z)  # 矩陣平均
+
+A %*% B  # 矩陣相乘
+t(x)  # 轉置矩陣
+t(x) %*% x  # 矩陣相乘
+solve(t(x) %*% x)  # 反矩陣
+solve(t(x) %*% x) %*% t(x) %*% y  # bata
+
+det(A)  # 解行列式
+solve(A, B)  # 解方程組
+
+
+
+# apply   → matrix 行列
+# lapply  → list
+# sapply  → 簡化輸出
+# tapply  → 分組計算
+# vapply  → 指定輸出型態
+# mapply  → 多變數
+# rapply  → 遞迴 list
+# eapply  → environment
+
+(1)
+m <- matrix(1:9, nrow=3)
+apply(m, 1, sum)  # 行加總
+apply(m, 2, sum)  # 列加總
+
+(2)
+x <- list(a=1:5, b=6:10)
+lapply(x, mean)   # 以list顯示
+
+(3)
+sapply(x, mean)  # 簡化顯示，輸出型態不固定
+
+(4)
+score <- c(80,90,75,88)
+group <- c("A","A","B","B")
+tapply(score, group, mean)  # 分組統計（類似 group by）
+
+(5)
+vapply(x, mean, matrix(18))  # 指定以matrix顯示
+vapply(x, mean, numeric(1))  # 指定以numeric顯示
+vapply(x, mean, vector(mode = "numeric", length = 1))  # 指定以向量顯示
+
+(6)
+mapply(sum, 1:3, 4:6)  # 多變數版本的 sapply()，可以同時處理多個向量
+mapply(mean, x, SIMPLIFY = TRUE)  # sapply()，簡化顯示，輸出型態不固定
+mapply(mean, x, SIMPLIFY = FALSE)  # lapply()，以list顯示
+
+(7)
+x <- list(a=1:3, b=list(c=4:6))
+rapply(x, sum)  # 對 list 進行遞迴處理
+
+(8)
+eapply(globalenv(), class)  # 對 environment 內所有物件套用函數
+kirbenvironment <- new.env()
+kirbenvironment$ss <- c(20, 55)
+kirbenvironment$tt <- c(45, 23)
+eapply(kirbenvironment,summary)
+
+
+
+# sample  → 抽樣
+# round  → 四捨五入
+# rnorm  → 常態分布（Normal distribution）
+# runif  → 均勻分布（Uniform distribution）
+# qnorm  → 查表
+# pnorm  → 累積密度函數
+# rbinom  → 二項分配（Binomial distribution）/伯努利分配（Bernoulli） 📌 應用：投硬幣、成功 / 失敗實驗、機率模擬；1 = 成功；0 = 失敗  # 模擬實驗
+# rpois  → # 卜瓦松分配（Poisson distribution） 📌 常用於 事件發生次數：一小時來幾個客人、每天事故數、每分鐘電話數
+# rexp  → exponation 指數分配 📌 常用於 等待時間：等下一個客人多久、機器故障前時間、事件間隔時間
+
+# dbinom  → density 機率密度 👉 某個值的機率:剛好出現 6 次正面 的機率。  # P(X=6)
+# pbinom  → probability 累積機率 👉 出現 6 次或以下正面 的機率  # P(X≤6)
+# qbinom  → quantile 分位數 👉 找到 累積機率 ≥ 0.95 時的最小成功次數  # P(X≤8)≥0.95  # 找臨界值
+
+# dnorm  → 標準常態分布（Standard Normal distribution）
+# pnorm  → 累積機率
+# qnorm  → 分位數（pnorm 的倒數）
+
+# dexp(x=1, r=2)  → 機率密度函數（PDF）👉「某個點附近的密度」，x=1的密度值（不是機率）  f(x)=re^(−rx)，x≥0
+# pexp(x=1, r=2)  → 累積分佈函數（CDF）👉「在時間 x 內發生」的機率，在1單位時間內發生的機率  P(X≤x)=1−e^(−rx)
+# qexp(p=0.9, r=2)  → 反累積分佈（Quantile Function）👉「有 p 機率會在多久內發生」，90% 機率會在多久內發生 x=−[ln(1−p)​]/r
+
+
+scan()  # 資料輸入
+set.seed(50)  # 隨機種子，固定隨機數的起點（seed），之後產生的亂數，每次執行都會一樣
+
+round(x, 0)  # 把小數四捨五入成整數
+sample(1:n, size=k, replace = T)  # 抽樣並放回
+
+rnorm(100)  # 從常態分布N(0,1)產生100個隨機數
+matrix(rnorm(250, mean = 70, sd = 4), 25, 10)  # 平均數70，標準差4，常態隨機25個，共10組
+
+rnorm(n, mean, sd)  # 常態分布（Normal distribution）
+runif(n, min, max)  # 均勻分布（Uniform distribution）
+
+qnorm(0.025) # 查表-1.96  # P(Z < z) = 0.025
+qnorm(0.975)  # 查表1.96  # P(Z < z) = 0.975
+qnorm(0.95)  # 查表1.645  # P(Z < z) = 0.95
+
+pnorm(-2:2)  # 累積密度函數  # P(Z < 1.654) = Φ(1.645) 
+
+rbinom(4, size = 1, prob = 0.75)  # 二項分配（Binomial distribution）/伯努利分配（Bernoulli）
+rpois(4, lambda = 2.3)  # 卜瓦松分配（Poisson distribution） lambda = 2.3 → 平均發生率
+rexp(4, rate = 0.5)  # exponation 指數分配 rate = 0.5 → 速率參數
+
+rbinom(5, size = 10, prob = 0.5)  # random 隨機生成  👉 隨機產生數值:產生 5 個實驗結果，每次實驗 投 10 次硬幣，成功機率 0.5，每個數字是 10 次中出現正面的次數
+sum(rbinom(5, size = 10, prob = 0.5))  # 計算抽中次數
+
+dbinom(6, size = 10, prob = 0.5)  # density 機率密度
+pbinom(6, size = 10, prob = 0.5)  # probability 累積機率
+qbinom(0.95, size = 10, prob = 0.5)  # quantile 分位數
+
+
+
+mean()  # 平均數
+var()  # 變異數 = sum((x - mean(x))^2)/(n-1)
+sd()  # 標準差 = sqrt(sum((x - mean(x))^2)/(n-1))
+scale()  # 標準化 = (x-mean(x))/sd(x)
+
+median()  # 中位數
+quantile(y, probs = 0:10/10)  # 十分位數
+quantile(y, c(0.25,0.5,0.75))  # 四分位數
+IQR()  # 四分位距 = 第三四分位數-第一四分位數
+
+max()  # 最大值
+min()  # 最小值
+sum(x)  # 總和
+prod(x)  # 相乘
+range()  # 區間 = 最大值 - 最小值
+range(x, na.rm = TRUE)  # 移除 NA 值再計算最小值與最大值
+range(x, finite = TRUE)  # 只使用有限值 (finite numbers)，會移除：NA、Inf、-Inf
+
+
+sort()  # 由小到大排序
+sort(x, decreasing = TRUE) # 由大到小排序
+rank()  # 排名由第n個數值
+rev()  # 倒序reverse (不是由大到小排列)
+unique()  # 去除重複的樣本
+length()  # 資料數量
+nchar()  # 字元數量
+LETTERS[1:13]  # 大寫字母
+letters[14:26]  # 小寫字母
+toupper("Applied Statistics")  # 轉換成大寫字母
+tolower("Quantitative and Qualitative")  # 轉換成小寫字母
+cat()  # 輸出字串
+readline()  # 輸入單行字串並呼叫變數
+
+
+unlist()  # 刪除層級
+x[[1]]  # list列表
+x[2]  # 向量
+
+
+strsplit(x, split = "[, ]")  # 字串以"," 或 " "分割
+strsplit(x, split = '')  #  字串以"字元"分割
+strsplit(x, split = "+", fixed = "TRUE")  # 特殊字元"+"，若fixed = "FALSE"，字串以"字元"分割
+
+
+paste(x, y)
+paste(x, y, sep = "/")  # 字串以"/"內部串接，預設" "
+paste(x, y, collapse = "+")  # 字串以"+"外部串接
+
+
+substr(x, start, stop)  # 擷取字串
+
+
+rep(1:3, each, times)  # 重複元素
+seq(from, to, by)  # 產生等差數列
+seq(from, to, length.out)  # 產生等差數列
+
+split(x, f)  # 把資料x 依條件f 分組
+subset(x, f, select)  # 顯示指定資料
+
+
+cumsum(1:10)  # 累加
+cumprod(1:10)  # 累乘
+cummin(3:1)  # 遞減至最小值
+cummax(1:3)  # 遞增至最大值
+prob = table / sum(table)  # 機率
+diff(r.x)  # 差分
+exp()  # 自然指數
+log()  # 對數
+sqrt()  # 平方根
+sin()  # 正弦
+cos()  # 餘弦
+function(x) sum(x^2)  # 平方總和
+formula()  # 轉變成模型公式
+
+
+union(x, y)  # 聯集（OR）
+intersect(x, y)  # 交集（AND）
+setdiff(x, y)  # 差集（x–y）傳回第一個集合中但不在第二個集合中的元素
+setequal(x, y)  # 判斷集合是否相等TRUE/FALSE
+
+
+#設定日期格式，以2024年4月26日為例。
+# %Y:年(2024)
+# %y:年份(24)
+# %m:月(04)
+# %d:日(26)
+# %H:時
+# %M:分
+# %S:秒
+# %D:完整日期(04/26/24)
+# %h:月份(中文:四月，英文:Apr)
+# %B:月份(中文:四月，英文:April)
+# %b:月份(中文:四月，英文:Apr)
+# %A:星期(中文:星期五，英文:Friday)
+# %a:星期(中文:週五，英文:Fri)
+
+weekdays(x)  # 星期
+months(x)  # 月份
+quarters(x)  # 季節
+
+as.Date(8000, origin = '2026-01-01')  # #從2026-01-01累計天數8000天
+unclass()  # 自1970累計"Date"天數 / "POSIXct"+"POSIXt" 秒
+
+
+Sys.Date()  # 顯示系統日期  # "2026-03-17"
+format(x, format = "%B %d %y")  # "三月 17 26"
+
+
+Sys.time()  # 顯示系統時間  # "2026-03-17 16:54:55 CST"  # CST中原標準時區
+as.POSIXlt(Sys.time(), "GMT")  # GMT格林威治時區  # 時區差8小時
+format(x, format = "%Y %m %d %A %H:%M:%S")  # "2026 03 17 星期二 16:54:55"
+
+
+sessionInfo()  # 系統語言設定資訊
+Sys.getlocale("LC_TIME")  # 顯示當前系統語言
+Sys.setlocale(category = "LC_ALL", locale = "English")  #語言設定改成英文設定
+Sys.setlocale(category = "LC_ALL", locale = "Chinese (Traditional)_Taiwan.950")  #語言設定改成中文設定
+format(Sys.time(), format = "%B")  # 英文設定，April  # 中文設定，四月
+
+
+
+(e)圖表分析
+ggplot()  # 長條圖
+qqplot()  # 散佈圖
+plot()  # 折線圖/散佈圖
+pairs()  # 成對散佈圖
+
+boxplot()  # 箱型圖
+barChart()  # 長條圖
+lineChart()  # 折線圖
+hist()  # 直方圖
+hist(x, prob = T)  # 機率密度 (density)，直方圖總面積 = 1
+hist(x, freq = FALSE)  # 機率密度 (density)，直方圖總面積 = 1
+stem()  # 莖葉圖
+chartSeries()  # K線圖
+addTA(Moving120, on=1, col="red")
+candleChart()  # 蠟燭圖
+
+
+curve(x, from = , to = , n = )  # 標準常態密度曲線
+lines(x, lm(y~x)$fit, col = 'red')  # 擬合曲線
+lines(lowess(x))  # 擬合曲線
+lines(density(x))  # 密度曲線
+abline(fit$coef)  # 擬合曲線
+
+
+
+(f)相關係數/變異數分析/回歸分析
+attributes(lm(y~x))  # 屬性
+names(lm(y~x))
+
+lm(y ~ x)  # 相關係數
+summary(lm(y ~ x))  # 變異數分析
+
+cor(x,y)  # 相關係數
+cor.test(x,y)  # 相關係數分析
+
+# beta0 = mean(y) - (cor(x,y) * sd(y) / sd(x)) * mean(x)
+# beta1 = cor(x,y) * sd(y) / sd(x)
+
+t.test(x, mu = 68)  # t 檢定
+
+
+
+(g)時間序列分析
+aggregate()  # 摘要
+start()  # 起始時間
+end()  # 結束時間
+frequency()  # 頻率
+
+
+
+(h)網頁結構
+xmlRoot(sdn)  # 網頁結構
+xmlName(rootNode)  # 最外層的XML tag
+names(rootNode)  # 第二層的XML tag
+rootNode[[1]]  # 第一組XML
+rootNode[[1]][[1]]  # 第一組第一行XML
+
+

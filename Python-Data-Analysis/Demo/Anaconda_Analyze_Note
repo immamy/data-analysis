@@ -1,0 +1,1031 @@
+# Anaconda Analyze
+
+
+1.目錄
+- install
+- import
+
+- 避免使用 Python 內建函數名字當變數名
+- 恢復內建函數
+- 常見 Error 類型
+- 不建議用 eval
+
+- type()
+
+- Python 基本資料結構 list dict array Series DataFrame
+- len() .size .count()
+
+2.使用指令
+- # Title
+- [youtube]("網址")
+- print("\n")
+
+- type()
+- input()
+- str()
+- int()
+- float()
+- datetime.strptime(x, "%Y-%m-%d")
+
+- print(x, end = )
+- print(x, y, sep = )
+
+- print("x:{} y:{}".format(x,y))
+- print(f"x = {x}, y = {y}")
+- print("x = %d" % x)
+
+- 設定字串格式 %d %.2f
+
+- 設定日期格式
+- now = datetime.now()
+- now.strftime("%Y-%m-%d %H:%M:%S")
+
+- list列表
+- dict / Dictionary字典
+- array陣列
+- 建立矩陣
+
+- np.sqrt()  # 平方根
+- np.exp()  # 自然指數
+- np.std()  # 標準差
+- np.mean()  # 平均數
+
+- math.sqrt()  # 平方根(適用於單一數值)
+- math.exp()  # 自然指數(適用於單一數值)
+- math.pi()  # 3.141592653589793
+- math.sin()  # 正弦
+- math.cos()  # 餘弦
+- abs()  # 絕對值
+- x**2  # 平方
+- pow(x, 2)  # 平方
+
+- sort()  # 由小到大排序
+- sorted(b, reverse = True)  # 由大到小排序
+- reverse()  # 倒序(不是由大到小排序)
+
+- np.linspace(start, end, n)  # 產生均勻分布list
+- random.randint(x,y)  # 產生介於x、y之間的隨機數
+
+- pd.DataFrame() 讀取檔案
+- pd.read_csv("路徑", sep="\t", on_bad_lines="warn", engine="python")  # 跳過錯誤行 同時會顯示警告（告訴你哪一行壞掉）
+- df.info()  # 資料結構
+- df.shape  # 維度
+- df.index  # 索引值
+- df.columns  # 欄位名稱
+- df.describe()  # 摘要
+- df.head()  # 前五筆資料
+- df.tail(2)  # 後二筆資料
+- len(df)  # 長度：list(元素數量) / dict(key 的數量) / array(列 × 欄（第一維長度row 數，不是總元素數）) / Series(資料筆數) / dfFrame(列數)
+- df.size  # 總元素數rows × columns  # array / Series (pandas) / dfFrame (pandas)才可以使用
+- df.count()  # 有效資料數(不含NaN)  # Series (pandas) / dfFrame (pandas)才可以使用
+- 直方圖 折線圖 散佈圖 箱型圖 機率密度圖（KDE, Kernel Density Estimation）
+
+- pd.Series() 索引
+- array轉Series (pandas) & list轉Series (pandas)
+- dict轉Series (pandas)
+- dict轉Series (pandas)
+- dict轉DataFrame (pandas)
+- 遺漏值NaN & dict轉DataFrame (pandas)
+
+- plot() 折線圖
+- 顏色（color）
+- 線型（linestyle / ls）
+- 標記（marker）
+- legend(loc=) 圖例位置
+- fmt 快速寫法  # 顏色 + marker + 線型
+- plt.plot() 「資料 + 顏色 + 線 + 點 + 粗細 + 標籤」
+- plt.legend()「位置 + 大小 + 欄數」
+
+- plt.plot(x,y ,":", color = "red", label = "")
+- plt.grid()
+- plt.axis([xmin, xmax, ymin, ymax])
+- plt.title("", loc = "right")
+- plt.xlabel("")
+- plt.ylabel("")
+- plt.text(x, y, "")
+- plt.scatter(5.0, 40, color = "", marker = "o", edgecolors = "black") #空點  # alpha=0.5虛點  # alpha=1實點
+- plt.legend()
+- plt.show()
+
+- plt.hist() 直方圖
+- 「怎麼選 bins」
+
+- plt.bar() 長條圖  # plt.bar = 垂直柱狀  # plt.barh = 水平柱狀
+- plt.bar(x, y, color='green', edgecolor='black')
+- plt.xticks(x, ['A','B','C'])  # 設定 X 軸刻度標籤
+- plt.yticks(y, ['A1','B1','C1'])  # 設定 y 軸刻度標籤
+
+- plt.pie() 圓餅圖
+
+
+
+
+#
+pip install --upgrade seaborn
+
+
+# import
+from datetime import datetime
+import numpy as np
+import math
+import random
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+import seaborn as sns
+import pandas as pd
+
+
+
+
+# 避免使用 Python 內建函數名字當變數名
+# list()  # 改變變數名，例如:my_list
+# dict()  # 改變變數名，例如:my_dict
+# str()  # 改變變數名，例如:my_str
+# int()  # 改變變數名，例如:my_int
+# set()  # 改變變數名，例如:my_set
+# tuple()  # 改變變數名，例如:my_tuple
+# max()  # 改變變數名，例如:max_value
+# min()  # 改變變數名，例如:min_value
+# sum()  # 改變變數名，例如:total_sum
+# input()  # 改變變數名，例如:user_input  
+
+
+# 恢復內建函數
+del list
+del dict
+
+
+# 常見 Error 類型
+# ValueError  值不合法  int("abc")
+# TypeError  型別錯誤  "a" + 1
+# NameError  變數不存在  print(a)
+# ZeroDivisionError  分母為0
+
+
+# 不建議用 eval，可以執行任意程式碼，電腦可能真的會執行系統指令（危險）
+eval()  # 可以把字串當成程式碼執行的函數
+
+
+
+
+# type()
+# "int"  整數 10
+# "float"  浮點數 3.14
+# "complex"  複數 1+2i
+# "bool"  布林值 TRUE FALSE
+# "str"  字串 "hello"
+
+# "list"  列表 [1,2,3]  # 可修改，索引從0開始
+# "tuple"  元組 (1,2,3)  # 唯讀，索引從0開始
+# "dict"  字典 {"a": 1}  # 可修改  # key:value  # Dictionary
+
+# "set"  集合 {1, 2, 3}  # 可修改
+# "frozenset"  集合 frozenset([1,2])  # 唯讀
+
+# "function"  def f(): pass  # type(f)
+# "generator"  x for x in range(3)
+# "list_iterator"  iter([1,2])
+
+# "range"  range(5)
+
+# "bytes"  bytes(5)
+# "bytearray"  bytearray(5)
+# "memoryview"  memoryview(bytes(5))
+
+# "NoneType"  None
+# "type"  type
+# "type"  class A: pass  # type(A)
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+#
+# Python 基本資料結構
+# │
+# ├── list        → [1,2,3] → 用len() 👉 元素數量
+# ├── dict        → {"A":1} → 用len() 👉 key 的數量
+# │👉 list / dict → 可以轉成 Series / DataFrame → 底層是 NumPy array
+# │（進階數值處理）
+# ↓
+# NumPy  import numpy as np
+# └── array       → np.array([1,2,3]) → 用len() 👉 列 × 欄（第一維長度row 數，不是總元素數）
+#     ↓
+# pandas  import pandas as pd
+# ├── Series      → 1維（像 list） → 用len() 👉 資料筆數 / size() 👉 總元素數rows × columns  / count() 👉 有效資料數(不含NaN)
+# └── DataFrame   → 2維（像 Excel） → 用len() 👉 列數 / size() 👉 總元素數rows × columns  / count() 👉 有效資料數(不含NaN)
+
+
+# 方法	  list	 dict	array	Series	 DataFrame  
+# len()	   ✅	  ✅	 ✅		  ✅		✅      長度
+# .size	   ❌	  ❌	 ✅		  ✅		✅      總元素數rows × columns 
+# .count() ❌	  ❌	 ❌		  ✅		✅      有效資料數(不含NaN)
+
+
+# list（Python）👉 可裝任何東西（最基本）
+a = [1, 2, None]
+len([1,2,3])  # 3 👉 元素數量
+
+
+# dict（Python）👉 key-value 結構
+d = {"A": 1, "B": 2}
+len({"A":1,"B":2})  # 2 👉 key 的數量
+
+
+# array（NumPy）👉 專門做「數值運算」（比 list 強）
+import numpy as np
+df = np.array([[1,2,3],[4,5,6]]) 
+print(len(df))   # 2 👉 2列 × 1欄，（第一維長度row 數，不是總元素數）
+print(df.size)     # 6 👉 2列 × 3欄 總元素數rows × columns
+
+
+# Series（pandas）👉 類似：升級版 list、或 dict（有 index）
+import pandas as pd
+df = pd.Series([1,2,3]) 
+print(len(df))     # 3 👉 資料筆數
+print(df.size)     # 3 👉 3列 × 1欄 總元素數rows × columns
+print(df.count())  # 3 👉 有效資料數(不含NaN)
+
+
+# DataFrame（pandas）👉 類似 Excel 表格（2D）
+#
+df = pd.DataFrame({
+    "A": [1, None, 3],
+    "B": [4, 5, None]
+})
+print(len(df))     # 3            👉 列數（rows）
+print(df.size)     # 6            👉 3列 × 2欄 總元素數rows × columns
+print(df.count())  # 'A':2  'B':2 👉 有效資料數(不含NaN)
+
+
+#
+df.count()       👉 每一欄的非空值數量
+df.count(axis=1) 👉 每一列的非空值數量
+
+
+# groupby 用法
+df.groupby(by = 'col').size()   # 👉 回傳 Series（單一數字）
+df.groupby(by = 'col').count()  # 👉 回傳 DataFrame（每欄都算）
+
+
+#
+df['col'].value_counts()              # 👉 不含 NaN
+df['col'].value_counts(dropna=False)  # 👉 包含 NaN  # 👉 類似：df.groupby('col').size()
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+# Title
+[youtube]("網址")
+print("\n")
+
+
+type()  # 資料類別
+input()  # 讓使用者輸入變數
+str()  # 資料轉換為"str"
+int()  # 資料轉換為"int"
+float()  # 資料轉換為"float"
+datetime.strptime(x, "%Y-%m-%d")  # 資料轉換為"datetime.datetime"
+list(data.items())  # "dict"資料轉換為"list"
+
+print(x, end = "---")
+print(x, y, sep = "***")
+
+print("x:{} y:{}".format(x,y))  # 輸出內容
+print(f"x = {x}, y = {y}")  # 輸出內容
+print("x = %d" % x)  # 輸出內容
+
+print(f"{'A':>5}")  # 右對齊
+print(f"{'A':<5}")  # 左對齊
+print(f"{'A':^5}")  # 置中
+
+
+#設定字串格式
+# %s:  "Tom"
+# %d:  20
+# %i:  20
+# %f:  3.14
+# %.2f:  3.14
+
+
+#
+pi = 3.14159
+print(f"π = {pi:.2f}")
+print("π = {:.2f}".format(pi))
+print("圓周率 %.2f" % pi)
+
+
+#
+x = 10 // 5  # 商數
+y = 10 % 5  # 餘數
+
+if x == 2 :
+    print(f"10除以5是{x}")
+elif y == 0:
+    print("10除以5的餘數是{}".format(y))
+else :
+    print("10除以5是%d，10除以5的餘數是%d" % (x,y))
+
+
+
+
+#設定日期格式，以2026年3月18日為例。
+# %Y: 年(2026)
+# %y: 年份(26)
+# %m: 月(03)
+# %d: 日(18)
+# %H: 24小時(14)
+# %I: 12小時(02)
+# %M: 分鐘(05)
+# %S: 秒(09)
+# %D: 完整日期(%m/%d/%y)(03/18/26)
+# %h: 月份(中文:三月，英文:Mar)
+# %B: 月份(中文:三月，英文:March)
+# %b: 月份(中文:三月，英文:Mar)
+# %A: 星期(中文:星期三，英文:Wednesday)
+# %a: 星期(中文:週三，英文:Wed)
+
+
+now = datetime.now()
+now.strftime("%Y-%m-%d %H:%M:%S")
+
+weekday_map = ["一", "二", "三", "四", "五", "六", "日"]
+weekday = weekday_map[now.weekday()]
+print(f"{now.year}年{now.month:02d}月{now.day:02d}日 星期{weekday} {now.hour:02d}:{now.minute:02d}:{now.second:02d}")
+
+month_map = ["一月","二月","三月","四月","五月","六月", "七月","八月","九月","十月","十一月","十二月"]
+print(month_map[now.month - 1])
+
+
+
+
+# list列表
+test_list = ["A" , "B" , "C"]  # list列表
+
+test_list[0]
+test_list[1]
+
+test_list.append()  # 新稱
+test_list.remove()  # 移除
+
+sum()  # 總和
+max()  # 最大值
+min()  # 最小值
+len()  # 物件的長度（元素個數）
+
+range(start, stop, step)  # 生成一個整數序列
+
+
+
+
+# dict / Dictionary字典
+blood = {"A":"A型", "B":"B型", "O":"O型"}  # dict字典
+blood["AB"] = "AB型"  # 新增
+del blood["L"]  # 移除key:value值
+del blood  # 移除字典dict
+
+blood.keys()  # key值
+blood.values()  # value值
+
+
+list(data.items())  # "dict"資料轉換為"list"
+list[0]
+list[0][0]
+list[0][1]
+
+
+
+
+# array陣列
+np.arange(start, stop, step, dtype)  # array陣列
+
+a[0]
+a[1]
+a[1,1]
+
+
+# 建立array陣列
+a = [[1, 2, 3, 4] , [5, 6, 7, 8]]  # list列表
+b = np.array(a)  # array陣列
+print(b)
+
+
+# 建立array陣列
+a = np.arange(start = 1, stop = 5, step = 1, dtype = int)
+print(a)
+
+
+# 建立矩陣
+a = np.array([[1, 5, 7, 9] , [2, 4, 6, 8] , [10, 15, 21, 34]])  # 矩陣
+b = np.array([[3, 6, 10, 5] , [1, 7, 17, 20] , [4, 5, 98, 100]])  # 矩陣
+np.ones((3, 3) , int)  # 建立元素都是1矩陣
+np.ones((3, 3) , str)  # 建立元素都是1矩陣
+a.shape  # 維度
+a.size  # 數量
+np.array(b).reshape(6,2)  # 轉換
+print(a+b)  # 矩陣相加
+np.add(a3, a5)  # 矩陣相加
+np.concatenate((a, b))  # 矩陣合併
+np.transpose(a)  # 轉置
+np.dot(a, np.transpose(b))  # 矩陣相乘
+a.np.dot(np.transpose(b))  # 矩陣相乘
+
+
+
+
+#
+np.sqrt()  # 平方根
+np.exp()  # 自然指數
+np.std()  # 標準差
+np.mean()  # 平均數
+
+
+#
+math.sqrt()  # 平方根(適用於單一數值)
+math.exp()  # 自然指數(適用於單一數值)
+math.pi()  # 3.141592653589793
+math.sin()  # 正弦
+math.cos()  # 餘弦
+abs()  # 絕對值
+x**2  # 平方
+pow(x, 2)  # 平方
+
+
+#
+sort()  # 由小到大排序
+sorted(b, reverse = True)  # 由大到小排序
+reverse()  # 倒序(不是由大到小排序)
+x.upper()  # 英文大寫
+
+
+#
+np.linspace(start, end, n)  # 產生均勻分布list
+random.randint(x,y)  # 產生介於x、y之間的隨機數
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+# pd.DataFrame()
+
+# 讀取檔案
+# pd.read_csv("路徑", sep="\t", on_bad_lines="skip", engine="python")  # 遇到錯誤 直接停止並報錯
+# pd.read_csv("路徑", sep="\t", on_bad_lines="error", engine="python")  # 直接 跳過壞掉的行 ❌ 不會提醒 👉 適合快速處理髒資料
+pd.read_csv("路徑", sep="\t", on_bad_lines="warn", engine="python")  # 跳過錯誤行 同時會顯示警告（告訴你哪一行壞掉）
+
+df.info()  # 資料結構
+df.shape  # 維度
+df.index  # 索引值
+df.columns  # 欄位名稱
+df.describe()  # 摘要
+df.head()  # 前五筆資料
+df.tail(2)  # 後二筆資料
+
+len(df)  # 長度：list(元素數量) / dict(key 的數量) / array(列 × 欄（第一維長度row 數，不是總元素數）) / Series(資料筆數) / dfFrame(列數)
+df.size  # 總元素數rows × columns  # array / Series (pandas) / dfFrame (pandas)才可以使用
+df.count()  # 有效資料數(不含NaN)  # Series (pandas) / dfFrame (pandas)才可以使用
+
+df.loc[df['col'] == 'data', :]  # 篩選欄(所有欄位)
+df.loc[:, ['col', 'col']]  # 篩選欄(只有指定欄位)
+
+def fun(x,y):
+    return x * y
+df['test'] = fun(df['col'], df['col'])  # 增加變數
+df.head()
+
+df.sort_values(['col']).head()  # 由小到大排序
+df.sort_values(['col']).tail()  # 由大到小排序
+
+df.sort_values(['col', 'col']).head()  # 由小到大排序
+df.sort_values(['col', 'col'], ascending= False).head()  # 由大到小排序
+
+df.groupby(by = 'col')  # 分組
+
+df[df['col'] == value][['col']].sum()  # 篩選 + 總和
+df[df['col'] == value].groupby(by = 'col')['col'].sum()  # 篩選 + 分組 + 總和
+df.groupby(by = 'col')['col'].sum()  # 分組 + 總和
+df.groupby(by = 'col')['col'].sum().sort_values(ascending= False)  # 分組 + 總和 + 由大到小排序
+
+
+#---------------------------------------------------------------------------------------
+
+
+df["col"].plot.hist(bins = vlaue)  # 直方圖
+plt.show()
+
+df[["col","col"]].plot.line()  # 折線圖
+plt.show()
+
+df.plot.line(x="col", y="col")  # 折線圖
+plt.show()
+
+df.plot.scatter(x = "col", y = "col")  # 散佈圖
+plt.show()
+
+df[["col","col"]].plot.box()  # 箱型圖
+plt.show()
+
+df["col"].plot.density()  # 機率密度圖（KDE, Kernel Density Estimation）
+plt.show()
+
+
+#---------------------------------------------------------------------------------------
+
+
+df.plot.line()  # 折線圖
+plt.show()
+
+df.plot.line(x="col_year", y="col_num", title="num over Time", figsize=(8,5))  # 折線圖
+plt.show()
+
+df.groupby("col_year")["col_num"].sum().plot.line()  # 折線圖 每年總數 看趨勢（上升 / 下降）
+plt.show()
+
+df.groupby(["col_year", "col_sex"])["col_num"].sum().unstack().plot.line()  # 折線圖 兩條線（male / female）
+plt.show()
+
+df[df["col_place"] == "data"].plot.line(x="col_year", y="col_num")  # 折線圖 地區數量 看趨勢（上升 / 下降）
+plt.show()
+
+df.plot.density()  # 機率密度圖（KDE）
+plt.show()
+
+df["col_num"].plot.density()  # 機率密度圖（KDE）
+plt.show()
+
+df["col_num"].plot.density(bw_method=0.3)  # 機率密度圖（KDE） 調整平滑程度（bandwidth） # 數值小 👉 曲線更「尖」  # 數值大 👉 曲線更「平」
+plt.show()
+
+df["col_num_pop"].plot.density()  # 機率密度圖（KDE） 分布 看資料集中在哪個區間
+plt.show()
+
+df.groupby("col_sex")["col_num_pop"].plot.density(legend=True)  # 機率密度圖（KDE） male vs female 分布差異
+plt.show()
+
+#
+df["col_num"].plot.hist(density=True)  # 直方圖（變成機率密度） True：總面積 = 1
+df["col_num"].plot.density()  # 機率密度圖（KDE）
+plt.show()
+
+#
+df = df[df["col_place"] == "data"]
+df.pivot_table( index="col_year", columns="col_sex", values="col_num", aggfunc="sum").plot.line()  # aggfunc="mean"  # 地區 vs 兩條線（male / female）
+df.groupby(["col_year", "col_sex"])["col_num"].sum().unstack().plot.line()  # .mean()  # 地區 vs 兩條線（male / female）
+
+#
+df_pivot = df.pivot_table(index="col_year", columns="col_sex", values="col_num", aggfunc="sum")
+df_pivot[["male", "female"]].plot.density()  # 地區 vs 兩條線（male / female）
+plt.show()
+
+#
+df = df[(df["col_place"]=="data") & (df["col_age"]=="data")]
+df.pivot(index="col_year", columns="col_sex", values="col_num").plot.line()  # 地區 vs 年齡 vs 兩條線（male / female）
+
+#
+df_grouped = (df.groupby(["col_year", "col_sex"])["col_num"].sum().unstack())
+df_grouped[["male", "female"]].plot.density()  # 兩條線（male / female）
+plt.show()
+
+#
+df = df.copy()
+df["rate"] = df["col_num"] / df["col_num_sum"]
+df_rate = df.pivot_table(index="col_year", columns="col_sex", values="col_rate", aggfunc="sum")
+df_rate[["male", "female"]].plot.density()  # 兩條線（male / female）
+plt.show()
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+# pd.Series() 索引
+pd.Series("", index = range(3))  # 建立Series (pandas)
+
+
+
+
+# array轉Series (pandas) & list轉Series (pandas)
+mylist = pd.Series(np.array(("data", "data")))  # array轉Series (pandas)
+
+df_idx = []
+for i in range(5): 
+    df_idx.append("row " + str(i + 1))
+pd.Series(mylist, index = df_idx)  # list轉Series (pandas)
+
+
+
+
+# dict轉Series (pandas)
+df_dict = {
+    "A": "AC",
+    "B": "AB"
+}
+df = pd.Series(df_dict)  # dict轉Series (pandas)
+df = pd.Series(df_dict, index = df_dict.keys())  # dict轉Series (pandas)
+
+df[0]  # 篩選值
+df['key']  # 篩選值
+df["key"] = "value"  # 更新值
+
+df[[0, 2, 4]]  # 篩選列
+df[['key', 'key']]  # 篩選列
+df[:3]  # 篩選列
+df['key':]  # 篩選列
+df[df.isin(("value", "value"))]  # 篩選列
+
+
+
+
+# dict轉Series (pandas)
+df_dict = {
+    "A": 1,
+    "B": 2
+}
+df = pd.Series(df_dict)  # dict轉Series (pandas)
+df + 5  # 計算
+
+
+
+
+# dict轉DataFrame (pandas)
+df_dict = {"name": ["A", "B"],
+           "df_number": [10, 20],
+           "is_df": [True, False]
+}
+df = pd.Series(df_dict)  # dict轉Series (pandas)
+df = pd.DataFrame(df_dict, columns = ["col", "col"])  # dict轉DataFrame (pandas) + 篩選欄
+
+df['col'] = df['col'] + value  # 新增變數
+df['col'] = ['data', 'data']  # 新增變數
+df.insert(value, 'col', ['data', 'data'])  # 新增變數
+
+del df['col']  # 刪除變數
+df.pop('col')  # 刪除變數
+
+df['col']  # 篩選欄
+df.col  # 篩選欄
+
+df['col'][0]  # 篩選值
+df.col[0]  # 篩選值
+
+df[:3]  # 篩選列
+df[3:]  # 篩選列
+df[0:5:2]  # 篩選列
+
+pd.DataFrame(df_dict, index = [0,1,2,8,9])  # 篩選列
+df.loc[:4, ['col', 'col']]  # 篩選欄 + 篩選列
+df.iloc[:4, [0, 2]]  # 篩選欄 + 篩選列
+
+df[df.col < value]  # 篩選值
+df[(df.col < value) & (df.col == False)]  # 篩選值 AND
+df[(df.col < value) | (df.col == False)]  # 篩選值 OR
+
+df.iloc[::-1]  # 倒序(不是由大到小排序)
+df.iloc[::-1].reset_index(drop=True)  # 倒序(不是由大到小排序) + 重新編號
+
+df.sort_index(axis = 0)  # 由小到大排序
+df.sort_index(axis = 0, ascending = False)  # 由大到小排序
+
+df.sort_values(by = 'col')  # 由小到大排序
+df.sort_values(by = 'col', ascending = False) # 由大到小排序
+
+df.sort_values(by = ['col', 'col']) # 由小到大排序
+df.sort_values(by = ['col', 'col2'], ascending = [False, True]) # col由大到小排序，col2由小到大排序
+
+
+
+
+# 遺漏值NaN & dict轉DataFrame (pandas)
+dict_NaN = {"name": ["A", "B", np.nan],
+           "df_number": [10, np.nan, np.nan],
+           "is_df": [True, False, np.nan]
+}
+df_NaN = pd.DataFrame(dict_NaN)  # dict轉DataFrame (pandas)
+
+df_NaN.dropna(how='any')  # 遺漏值 👉 只要該列有一個 NaN，就刪掉整列
+df_NaN.dropna(how='all')  # 遺漏值 👉 只有整列全部都是 NaN 才刪掉
+
+df_NaN['col'] = df_NaN['col'].fillna("data")  # 用於替換NaN資料中缺少的值 str
+df_NaN['col'] = df_NaN['col'].fillna(int(7))  # 用於替換NaN資料中缺少的值 int
+df_NaN['col'] = df_NaN['col'].fillna(False)  # 用於替換NaN資料中缺少的值 True/False
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+# plot() 折線圖
+# 顏色（color）
+# 'b'	藍 (blue)
+# 'g'	綠 (green)
+# 'r'	紅 (red)
+# 'c'	青 (cyan)
+# 'm'	洋紅 (magenta)
+# 'y'	黃 (yellow)
+# 'k'	黑 (black)
+# 'w'	白 (white)
+
+
+# 線型（linestyle / ls）
+# '-'	 實線
+# '--'	 虛線
+# '-.'	 點虛線
+# ':'	 點線
+# '' 	 無線
+# 'None' 無線
+
+
+# 標記（marker）
+# 'o'	圓形
+# '.'	點
+# ','	像素點
+# 's'	正方形
+# 'D'	菱形
+# '^'	上三角
+# 'v'	下三角
+# '<'	左三角
+# '>'	右三角
+# 'p'	五邊形
+# '*'	星形
+# '+'	加號
+# 'x'	叉號
+# `'	'`
+# '_'	水平線
+
+
+# legend(loc=) 圖例位置
+# 'best'	     自動（預設）
+# 'upper right'	 右上
+# 'upper left'	 左上
+# 'lower right'	 右下
+# 'lower left'	 左下
+# 'center'	     中央
+# 'center left'	 左中
+# 'center right' 右中
+# 'upper center' 上中
+# 'lower center' 下中
+
+
+# fmt 快速寫法  # 顏色 + marker + 線型
+x = [5, 4, 3, 2, 1]
+y = [1, 2, 3, 4, 5]
+
+plt.plot(x, y,
+		# 'b-',  # 藍色 實線
+		# 'r--',  # 紅色 虛線
+		# 'go-',  # 綠色 圓點 實線
+		# 'ro--',  # 紅色 圓點 虛線
+		# '-o'  # 實線 圓點
+		# 'k:',  # 黑色 點線
+		# 'ms-',  # 洋紅 方形 實線
+		# 'y^--',  # 黃色 三角 虛線
+		"g--+",  # 綠色 虛線 +
+		
+		# color = "blue",
+		# color = "red",
+		# color = "green",
+		# "-",  # 實線
+		# "--",  # 虛線
+		# "-.",  # 點虛線
+		# ":",  # 點線
+		# linewidth=2,
+		# "o",  # 圓點
+		# "d",  # 菱形
+		# "+",  # +
+		markersize = 10,
+		# markerfacecolor = "green",
+		markeredgewidth = 2,
+		markeredgecolor = "red",
+)
+plt.show()
+
+
+# 「資料 + 顏色 + 線 + 點 + 粗細 + 標籤」
+x = [1,2,3,4]
+y = [10,20,15,25]
+
+plt.plot(
+    x, y,
+	# data,
+    color='blue',  # 線條顏色 藍'b' 綠'g' 紅'r' 青'c'
+    linestyle='--',  # 線條樣式 實線'-' 虛線'--' 點虛線'-.' 點線':'
+    linewidth=2,  # 線條粗細
+
+    marker='o',  # 標記樣式 圓'o' 方's' 三角形'^' 點'.'
+    markersize=8,  # 標記大小
+    markerfacecolor='red',  # 標記顏色
+	markeredgecolor='red',  # 標記邊緣顏色
+	markeredgewidth=1,  # 標記邊緣粗細
+
+    label='Data',  # 標籤legend
+
+    alpha=0.8,  # 透明度
+	zorder=10,  # 圖層順序
+	visible=True,  # 可視化
+
+	dashes=[5, 2],  # 自訂虛線
+	dash_capstyle='round',  # 虛線每一段的端點長怎樣 平切'butt'(剛好結束) 圓頭'round'(圓滑結尾) 稍微突出'projecting'(多一點延伸)  # 一段一段的圓頭線
+	dash_joinstyle='round',  # 虛線轉彎時的接角樣式  # 尖角'miter'(尖) 圓角'round'(圓) 切角 'bevel'(斜切)
+
+	solid_capstyle='round',  # 實線每一段的端點長怎樣 平切'butt'(剛好結束) 圓頭'round'(圓滑結尾) 稍微突出'projecting'(多一點延伸)  # 一段一段的圓頭線
+	solid_joinstyle='round',  # 實線轉彎時的接角樣式  # 尖角'miter'(尖) 圓角'round'(圓) 切角 'bevel'(斜切)
+
+	drawstyle='steps',  # 線怎麼連接點 直線'default' 先水平再垂直'steps'、'steps-pre' 中間跳'steps-mid' 先垂直再水平'steps-post'  # 常用在：數位訊號、分段資料、階梯函數
+
+	antialiased=True,  # 線條是否平滑（抗鋸齒） # TRUE(平滑) FALSE(鋸齒)
+)
+
+
+# 「位置 + 大小 + 欄數」
+plt.legend(
+	loc='upper right',  # 位置
+	bbox_to_anchor=(1,1),  # 精細控制位置（搭配 loc）
+	fontsize=12,  # 大小
+	
+	title='Data',  # 標題
+	title_fontsize=12,  # 標題大小
+
+	frameon=True,  # 框線
+	framealpha=0.8,  # 框線透明度
+
+	facecolor='white',  # 背景色  # 'none'
+	edgecolor='gray',  # 邊框顏色  # 'none'
+
+	ncol=1,  # 欄數
+	columnspacing=2.0,  # 欄距
+	labelspacing=0.5,  # 行距
+
+	handlelength=2.0,  # 線的長度
+	handletextpad=0.8,  # 線與文字距離
+
+	borderpad=0.4,  # 內邊距
+	borderaxespad=0.5,  # 圖例和座標軸之間距離
+
+	shadow=False,  # 陰影
+)
+plt.show()
+
+
+#
+plt.plot(x,y ,":", color = "red", label = "")
+plt.grid()
+plt.axis([xmin, xmax, ymin, ymax])  # 設定座標軸顯示範圍
+plt.title("", loc = "right")
+plt.xlabel("")
+plt.ylabel("")
+plt.text(x, y, "")
+plt.scatter(5.0, 40, color = "", marker = "o", edgecolors = "black") #空點  # alpha=0.5虛點  # alpha=1實點
+plt.legend()
+plt.show()
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+# plt.hist() 直方圖
+#
+plt.hist(
+    x,
+    bins=10,  # 分組數量int
+	bins=[0, 2, 4, 6, 8, 10],  # 自訂區間list
+    bins=range(0, 11),  # 自訂區間list
+    bins=np.linspace(0, 10, 11),  # 自訂區間list
+    bins='auto',  # 'auto', 'fd', 'sturges', 'sqrt'
+    
+	histtype='bar',  # 圖表樣式 'bar'、'barstacked'、'step'、'stepfilled'
+    stacked=False,  # 多組資料是否堆疊
+
+	range=(min, max),  # 指定資料範圍
+    log=False,  # 是否使用對數刻度
+    
+    bottom=None,  # 每個 bin 的起始高度（用於堆疊）
+	weights=None,  # 每筆資料的權重
+	density=False,  # 是否正規化（變成機率密度） True：總面積 = 1
+    cumulative=False,  # 是否畫累積分布 True：累積 -1：反向累積
+
+    color=None,  # 顏色
+    edgecolor=None,  # 邊框顏色
+    linewidth=None,  # 邊框粗細
+	
+    align='mid',  # 對齊'left'、'mid'、'right'
+    rwidth=None,  # 柱狀寬度比例（0~1）
+    orientation='vertical',  # 方向'vertical'、'horizontal'
+
+    label='Data',  # 標籤legend
+
+    hatch=None,  # 填充樣式（例如 '/', 'x'）
+		
+    data=None,  # 搭配 pandas 使用（欄位名稱）
+    **kwargs,  # 傳給底層 patch（例如 alpha 透明度）
+)
+
+
+#
+# 👉「怎麼選 bins？」
+# 先用 auto 觀察分布，再根據資料特性調整。
+# 如果資料量大或有 outliers，會偏向用 fd，因為它基於 IQR，比較 robust。
+#
+# ✅ 方法1：先用 auto
+# plt.hist(data, bins='auto')
+# ✅ 方法2：再手動微調
+# plt.hist(data, bins=20)
+# plt.hist(data, bins=40)
+
+# 常態分布（Normal）  用'sturges' 或 'auto'
+# 偏態分布（Skewed）  用 'fd'
+# 雙峰分布（Bimodal）  用 'fd' 或 'auto'
+
+# bins = int（指定幾組）
+# bins = list（自訂區間）
+# bins = 'auto'（自動最佳化）
+# bins = 'fd'（Freedman–Diaconis）  # 大數據/有離群值，資料很多（>1000）或很亂，有離群值、偏態分布、真實資料，2*IQR/n^(1/3)，用IQR計算，抗離群值outlier、較準確，bins可能很多
+# bins = 'sturges'  # 小樣本（n<200），log2(n) + 1，假設近似常態分布，簡單、穩定，資料多時會過度簡化
+# bins = 'sqrt'  # 快速估計，bins ≈ √n，計算快，不精準
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+# plt.bar() 長條圖  # plt.bar = 垂直柱狀  # plt.barh = 水平柱狀
+plt.bar(
+    x,
+    height,  # 高度
+    width=0.8,  # 寬度，可調整讓柱子緊密或分開
+    bottom=None,  # 底部位置，可做「堆疊柱狀圖」
+    align='center',  # 'center'：置中  # 'edge'：左邊對齊
+
+	log='None',  # 是否使用對數 y 軸（或 x 軸水平時）
+	
+	color='red',  # 多色：['red', 'blue', ...]
+	edgecolor=None,  # 邊框顏色
+	linewidth=2,  # 邊框粗細
+	alpha='None',  # 透明度，0~1
+	orientation='vertical',  # 方向'vertical'、'horizontal'
+	
+	label='Data',  # 標籤legend
+
+	hatch=None,  # 填充樣式（例如 '/', 'x', 'o'）
+	
+    data=None,  # 搭配 pandas 使用（欄位名稱）
+    **kwargs,  # 傳給底層 Patch 對象（例如透明度、邊框樣式）
+)
+
+
+#
+plt.bar(x, y, color='green', edgecolor='black')
+plt.xticks(x, ['A','B','C'])  # 設定 X 軸刻度標籤
+plt.yticks(y, ['A1','B1','C1'])  # 設定 y 軸刻度標籤
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+# plt.pie() 圓餅圖
+#
+plt.pie(
+    x,
+    labels=['A', 'B', 'C'],  # 每個扇形的文字標籤
+    autopct='%1.1f%%',  # 是否顯示百分比 → 顯示 1 位小數
+    pctdistance=0.6,  # 百分比文字離圓心距離（比例，0~1+）
+    labeldistance=1.1,  # 標籤文字離圓心距離（比例，通常 >1）
+
+    explode=[0, 0.1, 0],  # 拆開特定扇形 → 第二塊突出
+    counterclock=True,  # 是否逆時針排列
+    rotatelabels=False,  # 標籤是否旋轉與扇形一致
+    normalize=True,  # 是否自動正規化總和 = 1
+
+    startangle=None,  # 起始角度（預設從 x 軸正方向 0°）
+    center=(0, 0),  # 圓心座標
+    radius=1,  # 半徑
+	
+    wedgeprops={'edgecolor':'black', 'linewidth':1.5},  # 控制扇形外觀字典
+    textprops={'fontsize':12, 'color':'white'},  # 控制文字屬性字典
+    frame=False,  # 外框
+	shadow=False,  # 陰影
+
+	data=None,  # 搭配 pandas 使用（欄位名稱）
+    **kwargs,  # 傳給底層 patch（例如 alpha 透明度）
+)
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+

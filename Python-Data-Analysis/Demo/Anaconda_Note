@@ -1,0 +1,1383 @@
+# Anaconda Analyze Example
+
+
+1.目錄
+- install
+- import
+
+- list列表 範例
+- dict / Dictionary字典 範例
+
+- pd.DataFrame() 讀取檔案 直方圖 折線圖 散佈圖 箱型圖 機率密度圖（KDE, Kernel Density Estimation）
+
+- pd.Series() 索引 範例
+- array轉Series (pandas) & list轉Series (pandas) 範例
+- dict轉Series (pandas) 範例
+- dict轉Series (pandas) 範例
+- dict轉DataFrame (pandas) 範例
+- 遺漏值NaN & dict轉DataFrame (pandas) 範例
+
+- 請輸入西元年
+- 請輸入西元年
+- 請輸入西元年
+- 請輸入西元年
+- 1到n的總和
+- 1到n的總和
+- 1到n的奇數和
+- 1到n的奇數和
+- 最小公倍數
+- 正整數的階乘
+- 判斷正數
+- 較小值
+- 最大值
+- 最大值
+- 九九乘法表
+- f(x)
+- 體積
+- 體積 & 梯形面積
+- BMI
+- 請輸入一段英文字
+- 平方
+- 相除
+- 次方
+- Fibonacci 費波娜西數列
+- Fibonacci 費波娜西數列
+- Fibonacci 費波娜西數列
+
+- plot() 折線圖 範例
+
+- plt.hist() 直方圖 範例
+- histtypes:# bar（預設）、# barstacked 多組資料會「堆疊在一起」、# step 只有線條（像輪廓圖）、# stepfilled 有填色 + 外框線
+- hist：真實資料分箱、kdeplot：數學平滑、boxplot：摘要統計、violinplot：完整分布
+- bins = int（指定幾組）
+- bins = list（自訂區間）
+- bins = 'auto'（自動最佳化）
+- bins = 'fd'（Freedman–Diaconis）  # 大數據/有離群值，資料很多（>1000）或很亂，有離群值、偏態分布、真實資料，2*IQR/n^(1/3)，用IQR計算，抗離群值outlier、較準確，bins可能很多
+- bins = 'sturges'  # 小樣本（n<200），log2(n) + 1，假設近似常態分布，簡單、穩定，資料多時會過度簡化
+- bins = 'sqrt'  # 快速估計，bins ≈ √n，計算快，不精準
+
+- plt.bar() 長條圖 範例  # plt.bar = 垂直柱狀  # plt.barh = 水平柱狀
+
+- plt.pie() 圓餅圖 範例
+
+
+
+
+#
+pip install --upgrade seaborn
+
+
+# import
+from datetime import datetime
+import numpy as np
+import math
+import random
+import matplotlib.pyplot as plt
+from scipy.stats import gaussian_kde
+import seaborn as sns
+import pandas as pd
+
+
+
+
+# list列表
+#
+for i in range(1, 11):
+    if (i==6):
+        continue
+    print(i, end = ",")
+
+
+# 輸出list所有資料
+for i in range(len(x)):
+    print(i)
+
+
+# 建立list列表，直到輸入"負數"則停止
+a = []
+while True:
+    b = int(input("請輸入一個數字"))
+    a.append(b)
+    print(a)
+    if b < 0:
+        break
+
+# 建立list列表
+a = [10, 20, 30, 40, 50]
+b = []*len(a)
+for i in range(len(a)):
+    b.append(a[i]*2) 
+print(b)
+
+
+# 建立list列表
+a = [10, 20, 30, 40, 50]
+b = [0]*len(a)
+for i in range(len(a)):
+    b[i] = a[i]*2
+print(b)
+
+
+
+
+# dict / Dictionary字典
+#
+blood = {"A":"A型", "B":"B型", "O":"O型", "AB":"AB型"}
+a = input("請輸入您的血型:")
+b = blood.get(a)
+if blood.get(a,"Not Found") == "Not Found":    
+    print("沒有{}血型".format(a))
+else:
+    print("{}型的血型為{}".format(a,b))
+
+
+#
+blood = {"A":"A型", "B":"B型", "O":"O型", "AB":"AB型"}
+a = input("請輸入您的血型:")
+b = blood.get(a)
+print("{}型的血型為{}".format(a,b))
+
+
+# 輸出所有key:value
+blood = {"A":"A型", "B":"B型", "O":"O型", "AB":"AB型"}
+for key, value in blood.items():
+    print("{}型的血型為{}".format(key, value))
+
+
+# 輸出所有key:value
+blood = {"A":"A型", "B":"B型", "O":"O型", "AB":"AB型"}
+blood_list = list(blood.items())  # "dict"資料轉換為"list"
+for i in range(len(blood)):
+    print("{}型的血型為{}".format(blood_list[i][0],blood_list[i][1]))
+
+	
+# 輸出所有key:value
+award = {"金牌":26, "銀牌":34, "銅牌":30}
+award_categories = list(award.keys())  # "dict"資料轉換為"list"
+award_count = list(award.values())  # "dict"資料轉換為"list"
+for i in range(len(award)):
+	print("得到的{}數目為{}面".format(award_categories[i],award[award_categories[i]]))
+
+
+# 學生成績名單輸入
+student = {"林小明":85, "曾山水":93, "黃明土":81}
+name = input("請輸入學生姓名")
+if name in student :
+    print("{}的成績為{}分".format(name, student[name]))
+    print("名單:{}".format(student))
+else:
+    score = input("請輸入學生分數")
+    student[name] = score
+    print("名單:{}".format(student))
+    student = student[name]
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+# pd.DataFrame()
+
+# 讀取檔案
+# Suicide_Rates = pd.read_csv("C:/Users/User/Desktop/master.csv", sep="\t", on_bad_lines="skip", engine="python")  # 遇到錯誤 直接停止並報錯
+# Suicide_Rates = pd.read_csv("C:/Users/User/Desktop/master.csv", sep="\t", on_bad_lines="error", engine="python")  # 直接 跳過壞掉的行 ❌ 不會提醒 👉 適合快速處理髒資料
+Suicide_Rates = pd.read_csv("C:/Users/User/Desktop/master.csv", sep="\t", on_bad_lines="warn", engine="python")  # 跳過錯誤行 同時會顯示警告（告訴你哪一行壞掉）
+
+print(Suicide_Rates.info())  # 資料結構
+print("\n")
+
+print(Suicide_Rates.shape)  # 維度
+print("\n")
+
+print(Suicide_Rates.head())  # 前五筆資料
+print("\n")
+
+print(Suicide_Rates.tail())  # 後五筆資料
+print("\n")
+
+print(len(Suicide_Rates))  # 列數（rows） 27820
+print("\n")
+
+print(Suicide_Rates.count())  # 有效資料數(不含NaN)
+print("\n")
+
+print(Suicide_Rates.size)  # 總元素數rows × columns
+print("\n")
+
+print(Suicide_Rates.loc[Suicide_Rates['country'] == 'Japan', :])  # 篩選欄(所有欄位)
+print("\n")
+
+print(Suicide_Rates.loc[:, ['country', 'year','suicides_no']])  # 篩選欄(只有指定欄位)
+print("\n")
+
+
+def fun(x,y):
+    return x * y
+Suicide_Rates['test'] = fun(Suicide_Rates['suicides_no'], Suicide_Rates['population'])  # 增加變數
+print(Suicide_Rates.head())
+print("\n")
+
+
+print(Suicide_Rates.sort_values(['suicides_no']).head())  # 由小到大排序
+print("\n")
+
+print(Suicide_Rates.sort_values(['suicides_no']).tail())  # 由大到大排序
+print("\n")
+
+print(Suicide_Rates.sort_values(['suicides_no', 'country']).head())  # 由小到大排序
+print("\n")
+
+print(Suicide_Rates.sort_values(['suicides_no', 'country'], ascending= False).head())  # 由大到小排序
+print("\n")
+
+print(Suicide_Rates[Suicide_Rates['year'] == 2007][['population']].sum())  # 篩選 + 總和
+print("\n")
+
+print(Suicide_Rates[Suicide_Rates['year'] == 2014].groupby(by = 'country')['population'].sum())  # 篩選 + 分組 + 總和
+print("\n")
+
+print(Suicide_Rates.groupby(by = 'country')['population'].sum())  # 分組 + 總和
+print("\n")
+
+print(Suicide_Rates.groupby(by = 'country')['population'].sum().sort_values(ascending= False))  # 分組 + 總和 + 由大到小排序
+print("\n")
+
+#---------------------------------------------------------------------------------------
+
+Suicide_Rates["year"].plot.hist(bins = 40)  # 直方圖
+plt.show()
+
+Suicide_Rates[["year","suicides_no", "population"]].plot.line()  # 折線圖
+plt.show()
+
+Suicide_Rates.plot.scatter(x = "year", y = "suicides_no")  # 散佈圖
+plt.show()
+
+Suicide_Rates[["year","suicides_no", "population"]].plot.box()  # 箱型圖
+plt.show()
+
+Suicide_Rates["suicides_no"].plot.density()  # 機率密度圖（KDE, Kernel Density Estimation）
+plt.show()
+
+
+#---------------------------------------------------------------------------------------
+
+Suicide_Rates.plot.line()  # 折線圖
+plt.show()
+
+Suicide_Rates.plot.line(x="year", y="suicides_no", title="Suicides over Time", figsize=(8,5))  # 折線圖 年份 vs 自殺人數
+plt.show()
+
+Suicide_Rates.groupby("year")["suicides_no"].sum().plot.line()  # 折線圖 每年自殺總數 看趨勢（上升 / 下降）
+plt.show()
+
+Suicide_Rates.groupby(["year", "sex"])["suicides_no"].sum().unstack().plot.line()  # 折線圖 兩條線（male / female）
+plt.show()
+
+Suicide_Rates[Suicide_Rates["country"] == "Albania"].plot.line(x="year", y="suicides_no")  # 折線圖 地區數量 看趨勢（上升 / 下降）
+plt.show()
+
+Suicide_Rates.plot.density()  # 機率密度圖（KDE）
+plt.show()
+
+Suicide_Rates["suicides_no"].plot.density()  # 機率密度圖（KDE） 看自殺人數的分布
+plt.show()
+
+Suicide_Rates["suicides_no"].plot.density(bw_method=0.3)  # 機率密度圖（KDE） 調整平滑程度（bandwidth） # 數值小 👉 曲線更「尖」  # 數值大 👉 曲線更「平」
+plt.show()
+
+Suicide_Rates["suicides/100k pop"].plot.density()  # 機率密度圖（KDE） 自殺率分布 看資料集中在哪個區間
+plt.show()
+
+Suicide_Rates.groupby("sex")["suicides/100k pop"].plot.density(legend=True)  # 機率密度圖（KDE） male vs female 分布差異
+plt.show()
+
+#
+Suicide_Rates["suicides_no"].plot.hist(density=True)  # 直方圖（變成機率密度） True：總面積 = 1
+Suicide_Rates["suicides_no"].plot.density()  # 機率密度圖（KDE）
+plt.show()
+
+#
+df = Suicide_Rates[Suicide_Rates["country"] == "Albania"]
+df.pivot_table( index="year", columns="sex", values="suicides_no", aggfunc="sum").plot.line()  # aggfunc="mean"  # 地區 vs 兩條線（male / female）
+df.groupby(["year","sex"])["suicides_no"].sum().unstack().plot.line()  # .mean()  # 地區 vs 兩條線（male / female）
+
+#
+df_pivot = Suicide_Rates.pivot_table(index="year", columns="sex", values="suicides_no", aggfunc="sum")
+df_pivot[["male", "female"]].plot.density()  # 地區 vs 兩條線（male / female）
+plt.show()
+
+#
+df = Suicide_Rates[(Suicide_Rates["country"]=="Albania") & (Suicide_Rates["age"]=="15-24 years")]
+df.pivot(index="year", columns="sex", values="suicides_no").plot.line()  # 地區 vs 年齡 vs 兩條線（male / female）
+
+#
+df_grouped = (Suicide_Rates.groupby(["year", "sex"])["suicides_no"].sum().unstack())
+df_grouped[["male", "female"]].plot.density()  # 兩條線（male / female）
+plt.show()
+
+#
+df = Suicide_Rates.copy()
+df["rate"] = df["suicides_no"] / df["population"]
+df_rate = df.pivot_table(index="year", columns="sex", values="rate", aggfunc="sum")
+df_rate[["male", "female"]].plot.density()  # 兩條線（male / female）
+plt.show()
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+# pd.Series() 索引
+raptors_starting_Series = pd.Series("LeBron Raymone James Sr.", index = range(3))
+print(raptors_starting_Series)
+print("\n")
+
+print(len(raptors_starting_Series))  # 資料筆數 3
+print("\n")
+
+print(raptors_starting_Series.count())  # 有效資料數(不含NaN) 3
+print("\n")
+
+print(raptors_starting_Series.size)  # 總元素數rows × columns  3列 × 1欄 = 3
+print("\n")
+
+
+
+
+# array轉Series (pandas) & list轉Series (pandas)
+raptors_starting_lineup = np.array(("K. Leonard", "P. Siakam", "M. Gasol", "D. Green", "K. Lowry"))
+print(pd.Series(raptors_starting_lineup)) # 索引    # array轉Series (pandas)
+print("\n")
+print(len(raptors_starting_lineup))  # 5列 × 1欄 = 5（第一維長度row 數，不是總元素數）
+print("\n")
+print(raptors_starting_lineup.size)  # 總元素數rows × columns 5列 × 1欄 = 5
+print("\n")
+
+position_idx = []
+for i in range(5): 
+    position_idx.append("position " + str(i + 1))
+print(pd.Series(raptors_starting_lineup, index = position_idx))  # list轉Series (pandas)
+print("\n")
+
+
+
+
+# dict轉Series (pandas)
+raptors_starting_lineup_dict = {
+    "SF": "K. Leonard",
+    "PF": "P. Siakam",
+    "C": "M. Gasol",
+    "SG": "D. Green",
+    "PG": "K. Lowry"
+}
+print(len(raptors_starting_lineup_dict))  # key 的數量 5
+print("\n")
+
+raptors_players = pd.Series(raptors_starting_lineup_dict)  # dict轉Series (pandas)
+print(raptors_players)
+print("\n")
+
+raptors_players = pd.Series(raptors_starting_lineup_dict, index = raptors_starting_lineup_dict.keys())  # dict轉Series (pandas)
+print(raptors_players)
+print("\n")
+
+print(len(raptors_players))  # 資料筆數 5
+print("\n")
+
+print(raptors_players.count())  # 有效資料數(不含NaN) 5
+print("\n")
+
+print(raptors_players.size)  # 總元素數rows × columns  5列 × 1欄 = 5
+print("\n")
+
+print(raptors_players[0])  # 篩選值
+print("\n")
+
+print(raptors_players['PF'])  # 篩選值
+print("\n")
+
+raptors_players["PF"] = "AJ"  # 更新值
+print(raptors_players)
+print("\n")
+
+raptors_players = pd.Series(raptors_starting_lineup_dict)  # 原始資料    # dict轉Series (pandas)
+print(raptors_players)
+print("\n")
+
+print(raptors_players[[0, 2, 4]])  # 篩選列
+print("\n")
+
+print(raptors_players[['C', 'PG', 'SF']])  # 篩選列
+print("\n")
+
+print(raptors_players[:3])  # 篩選列
+print("\n")
+
+print(raptors_players['C':])  # 篩選列
+print("\n")
+
+print(raptors_players[raptors_players.isin(("P. Siakam", "D. Green"))])  # 篩選列
+print("\n")
+
+
+
+
+# dict轉Series (pandas)
+raptors_players_squadnumber = {
+    "K. Leonard" : 2,
+    "P. Siakam" : 43,
+    "M. Gasol" : 33,
+    "D. Green" : 14,
+    "K. Lowry" : 7 
+}
+print(len(raptors_players_squadnumber))  # key 的數量 5
+print("\n")
+
+raptors_players = pd.Series(raptors_players_squadnumber, index = raptors_players_squadnumber.keys())  # dict轉Series (pandas)
+print(raptors_players)
+print("\n")
+print(raptors_players + 5)  # 計算
+print("\n")
+print(len(raptors_players))  # 資料筆數 5
+print("\n")
+print(raptors_players.count())  # 有效資料數(不含NaN) 5
+print("\n")
+print(raptors_players.size)  # 總元素數rows × columns 5列 × 1欄 = 5
+print("\n")
+
+
+
+
+# dict轉DataFrame (pandas)
+raptors_players_dict = {"name": ["K. Leonard", "P. Siakam", "M. Gasol", "D. Green", "K. Lowry"],
+                        "squad_number": [2, 43, 33, 14, 7],
+                        "position": ["SF", "PF", "C", "SG", "PG"],
+                        "is_American": [True, False, False, True, True]
+}
+print(len(raptors_players_dict))  # key 的數量 4
+print("\n")
+
+raptors_df = pd.DataFrame(raptors_players_dict)  # dict轉DataFrame (pandas)
+print(raptors_df)
+print("\n")
+
+raptors_df = pd.DataFrame(raptors_players_dict, columns = ["position", "name", "squad_number", "is_American"])  # dict轉DataFrame (pandas) + 篩選欄
+print(raptors_df)
+print("\n")
+
+print(raptors_df.shape)  # 維度
+print("\n")
+
+print(raptors_df.index)  # 索引值
+print("\n")
+
+print(raptors_df.columns)  # 欄位名稱
+print("\n")
+
+print(raptors_df.info())  # 資料結構
+print("\n")
+
+print(len(raptors_df))  # 列數（rows） 5
+print("\n")
+
+print(raptors_df.count())  # 有效資料數(不含NaN)
+print("\n")
+
+print(raptors_df.size)  # 總元素數rows × columns 5列 × 4欄 = 20
+print("\n")
+
+print(raptors_df.head())  # 前五筆資料
+print("\n")
+
+print(raptors_df.tail(2)) # 後二筆資料
+print("\n")
+
+print(raptors_df.describe())  # 摘要
+print("\n")
+
+raptors_df['squad_number + 5'] = raptors_df['squad_number'] + 5  # 新增變數
+print(raptors_df)
+print("\n")
+
+raptors_df['Nationality'] = ['United States', 'Cameroonian', 'Spain', 'United States', 'United States']  # 新增變數
+print(raptors_df)
+print("\n")
+
+raptors_df.insert(2, 'Nationality2', ['United States', 'Cameroonian', 'Spain', 'United States', 'United States'])  # 新增變數
+print(raptors_df)
+print("\n")
+
+del raptors_df['Nationality']  # 刪除變數
+print(raptors_df)
+print("\n")
+
+raptors_df.pop('Nationality2')  # 刪除變數
+print(raptors_df)
+print("\n")
+
+print(raptors_df['name'])  # 篩選欄
+print("\n")
+
+print(raptors_df.name)  # 篩選欄
+print("\n")
+
+print(raptors_df['name'][0])  # 篩選值
+print("\n")
+
+print(raptors_df.name[0])  # 篩選值
+print("\n")
+
+print(pd.DataFrame(raptors_players_dict, columns = ["name", "position"]))  # dict轉DataFrame (pandas) + 篩選欄
+print("\n")
+
+print(raptors_df[:3])  # 篩選列
+print("\n")
+
+print(raptors_df[3:])  # 篩選列
+print("\n")
+
+print(raptors_df[0:5:2])  # 篩選列
+print("\n")
+
+print(pd.DataFrame(raptors_players_dict, index = [0,1,2,8,9]))  # 篩選列
+print("\n")
+
+print(raptors_df.loc[:4, ['name', 'squad_number']])  # 篩選欄 + 篩選列
+print("\n")
+
+print(raptors_df.iloc[:4, [0, 2]])  # 篩選欄 + 篩選列
+print("\n")
+
+print(raptors_df.iloc[::-1])  # 倒序(不是由大到小排序)
+print("\n")
+
+print(raptors_df.iloc[::-1].reset_index(drop=True))  # 倒序(不是由大到小排序) + 重新編號
+print("\n")
+
+raptors_df = pd.DataFrame(raptors_players_dict, columns = ["position", "name", "squad_number", "is_American"])  # 原始資料    # dict轉DataFrame (pandas)
+print(raptors_df)
+print("\n")
+
+print(raptors_df[raptors_df.squad_number < 35])  # 篩選值(球衣背號小於 35 的球員資料)
+print("\n")
+
+print(raptors_df[(raptors_df.squad_number < 35) & (raptors_df.is_American == False)])  # 篩選值(球衣背號小於 35 且 非美國籍的球員資料)
+print("\n")
+
+print(raptors_df[(raptors_df.squad_number < 35) | (raptors_df.is_American == False)])  # 篩選值(球衣背號小於 35 或 非美國籍的球員資料)
+print("\n")
+
+print(raptors_df.sort_index(axis = 0, ascending = False))  # 由大到小排序
+print("\n")
+
+print(raptors_df.sort_values(by = 'squad_number'))  # 由小到大排序
+print("\n")
+
+print(raptors_df.sort_values(by = 'squad_number', ascending = False)) # 由大到小排序
+print("\n")
+
+print(raptors_df.sort_values(by = ['name', 'squad_number'])) # 由小到大排序
+print("\n")
+
+print(raptors_df.sort_values(by = ['name', 'squad_number'], ascending = [False, True])) # name由大到小排序，squad_number由小到大排序
+print("\n")
+
+
+
+
+# 遺漏值NaN & dict轉DataFrame (pandas)
+raptors_players_dict_NaN = {"name": ["K. Leonard", "P. Siakam", "M. Gasol", "D. Green", "K. Lowry", np.nan],
+                        "squad_number": [2, 43, 33, 14, np.nan, np.nan],
+                        "position": ["SF", "PF", "C", "SG", "PG", np.nan],
+                        "is_American": [True, False, False, True, True, np.nan]
+}
+raptors_df_NaN = pd.DataFrame(raptors_players_dict_NaN)  # 原始資料    # dict轉DataFrame (pandas)
+print(raptors_df_NaN)
+print("\n")
+
+print(raptors_df_NaN.dropna(how='any'))  # 遺漏值 👉 只要該列有一個 NaN，就刪掉整列
+print("\n")
+
+raptors_df_NaN = pd.DataFrame(raptors_players_dict_NaN)  # 原始資料    # dict轉DataFrame (pandas)
+print(raptors_df_NaN)
+print("\n")
+
+print(raptors_df_NaN.dropna(how='all'))  # 遺漏值 👉 只有整列全部都是 NaN 才刪掉
+print("\n")
+
+raptors_df_NaN = pd.DataFrame(raptors_players_dict_NaN)  # 原始資料    # dict轉DataFrame (pandas)
+print(raptors_df_NaN)
+print("\n")
+
+raptors_df_NaN['name'] = raptors_df_NaN['name'].fillna("P. Siakam")  # 用於替換NaN資料中缺少的值 str
+print(raptors_df_NaN)
+print("\n")
+
+raptors_df_NaN['position'] = raptors_df_NaN['position'].fillna("SF")  # 用於替換NaN資料中缺少的值 str
+print(raptors_df_NaN)
+print("\n")
+
+raptors_df_NaN['squad_number'] = raptors_df_NaN['squad_number'].fillna(int(7))  # 用於替換NaN資料中缺少的值 int
+print(raptors_df_NaN)
+print("\n")
+
+raptors_df_NaN['is_American'] = raptors_df_NaN['is_American'].fillna(False)  # 用於替換NaN資料中缺少的值 True/False
+print(raptors_df_NaN)
+print("\n")
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+#
+a = int(input("請輸入西元年"))
+if a % 4 == 0 :
+    if a % 100 == 0 :
+        if a % 400 == 0 :
+            print("閏年")
+        else :
+            print("平年")
+    else :
+        print("閏年")
+else :
+    print("平年")
+
+
+#
+a = int(input("請輸入西元年"))
+if a % 4 == 0 :
+    if a % 100 != 0 :
+        print("閏年")
+    else :
+        if a % 400 == 0 :
+            print("閏年")
+        else :
+            print("平年")
+else :
+    print("平年")
+
+
+#
+a = int(input("請輸入西元年"))
+b = a % 4
+c = a % 100
+d = a % 400
+
+if b == 0 :
+    if c == 0 :
+        if d == 0 :
+            print("%s年是閏年" % a)
+        else :
+            print("%s年是平年" % a)
+    else :
+        print("%s年是閏年" % a)
+else :
+    print("%s年是平年" % a)
+
+
+#
+a = int(input("請輸入西元年"))
+b = a % 4
+c = a % 100
+d = a % 400
+
+if b == 0 :
+    if c != 0 :
+        print("%s年是閏年" % a)
+    else :
+        if d == 0 :
+            print("%s年是閏年" % a)
+        else :
+            print("%s年是平年" % a)
+else :
+    print("%s年是平年" % a)
+
+
+# 1到n的總和
+n = int(input("請輸入正整數"))
+m = 0
+for i in range(n+1):
+	m = m + i
+print("1到{}的總和為{}".format(n,m))
+
+
+# 1到n的總和
+n = int(input("請輸入正整數"))
+x = 0
+total = 0
+while(x < n):    
+    x += 1
+    total += x
+print("1到{}的總和為{}".format(n,total))
+
+
+# 1到n的奇數和
+n = int(input("請輸入正整數"))
+m = 0
+for i in range(1,n):    
+    if i % 2 == 1:
+        m = m + i        
+print("0到{}之間的奇數和是{}".format(n,m))
+
+
+# 1到n的奇數和
+n = int(input("請輸入正整數"))
+m = 0
+i = 0
+while i <= n:
+    if i % 2 == 1:
+        m = m + i
+    i += 1
+print("0到{}之間的奇數和是{}".format(n,m))
+
+
+# 最小公倍數
+a = int(input("請輸入正整數"))
+b = int(input("請輸入正整數"))
+for i in range(1, (a*b)+1):
+	if i % a == 0 and i % b == 0:
+		print("{}和{}的最小公倍數是{}".format(a, b, i))
+		break
+
+
+# 正整數的階乘
+a = int(input("請輸入正整數"))
+total = 1
+n = 0
+while(a > n):
+    n += 1
+    total *=n
+print("{}!等於{}".format(a,total))
+
+
+# 判斷正數
+while True:
+    n = int(input("請輸入正整數"))
+    if n > 0:
+        print(n)
+    else:
+        print("{}不是正整數".format(n))
+        break
+
+
+# 較小值
+a=float(input("請輸入a值="))
+b=float(input("請輸入b值="))
+def min(x,y):
+  if (x>y):
+    return y
+  else:
+    return x
+print("較小值為",min(a,b))
+
+
+# 最大值
+a=float(input("請輸入a值=:"))
+b=float(input("請輸入b值=:"))
+c=float(input("請輸入c值=:"))
+def max(x,y,z):
+  if (x>y) and (x>z):
+    return x
+  elif (y>x) and (y>z):
+    return y
+  elif (z>x) and (z>y):
+    return z
+print("最大值為",max(a,b,c))
+
+
+# 最大值
+x = int(input("請輸入一個數字"))
+y = int(input("請輸入一個數字"))
+z = int(input("請輸入一個數字"))
+if (x>y) and (x>z):
+    print("最大值為",x)
+elif (y>x) and (y>z):
+    print("最大值為",y)
+elif (z>x) and (z>y):
+    print("最大值為",z)
+
+
+# 九九乘法表
+print("九九乘法表 ...... \n" )
+for i in range(1,10):
+    print("\n\n" + str(i) + " ... \n" )
+    for j in range(1,10):
+        m = i*j
+        print(str(i) + "*" + str(j) + "=" + str(m) )
+print("\n 執行完畢 \n" )
+
+
+# f(x)
+μ = 1
+σ = 2
+x = int(input("請輸入x值:"))
+f = ( 1 / (math.sqrt(2*math.pi)*σ)) * math.exp((-1)*((x-μ)**2) / (2*(σ**2)))
+print("當x為{}時，f(x)為{}".format(x,f))
+
+
+#
+def v(x, h = True):
+    if h == True:
+        a = math.pi * pow(x, 2)
+        return a
+    else:
+        b = 2 * math.pi * x
+        return b
+v(3,0)  # TRUE  = 1 & FALSE = 0
+
+
+# 體積
+a1 = int(input("請輸入長"))
+a2 = int(input("請輸入寬"))
+a3 = int(input("請輸入高"))
+def a(x,y,z):
+    b = x*y*z
+    return b
+print("如果長為{}，寬為{}，高為{}，則體積為{}".format(a1,a2,a3,a(a1,a2,a3)))
+
+
+# 體積 & 梯形面積
+def v(x,y,z):
+    v1 = x*y*z
+    v2 = ((x+y)*z)/2
+    return v1, v2
+print(v(4,6,10)[0])  # 體積
+print(v(4,6,10)[1])  # 梯形面積
+
+
+# BMI
+c1 = int(input("請輸入體重(kg)"))
+c2 = int(input("請輸入身高(cm)"))
+def c(x,y):
+    d = x / ((y/100)**2)
+    return d
+print("如果體重為{}，身高為{}，則bmi為{}".format(c1,c2,c(c1,c2)))
+
+
+#
+report = input("請輸入一段英文字...")
+report = report.upper()  # 英文大寫
+def keyword_checking(word):
+    key_word = ("CHEAT")
+    if key_word in word:
+        print('Cheat found')
+    else:
+        print('Cheat not found')
+keyword_checking(report)
+
+
+# 平方
+x = input("請輸入數字")
+try:
+	num = int(x)
+	print("{}的平方為{}".format(x, num ** 2))
+except ValueError:
+    print("發生輸入非數值的錯誤!")
+
+
+# 相除
+x = input("請輸入數字")
+y = input("請輸入數字")
+try:
+	num_x = int(x)
+	num_y = int(y)
+	print("{}除以{}為{}".format(x, y, (num_x/num_y)))
+except ValueError:
+    print("發生輸入非數值的錯誤!")
+except ZeroDivisionError:
+    print("分母不得為零")
+	
+	
+# 次方
+x = input("請輸入一個數字")
+y = input("請輸入欲求次方")
+try:
+	num = int(x)
+	num_power = int(y)
+	print("{}的{}次方是{}".format(num, num_power, (pow(num, num_power))))
+except ValueError:
+    print("發生輸入非數值的錯誤!")
+
+
+# Fibonacci 費波娜西數列
+n = int(input("請輸入數列個數"))
+def fib(n):
+    if (n == 0):
+        return 0
+    if (n == 1):
+        return 1
+    else:
+        return fib(n-1) + fib(n-2)   
+for i in range(1, n+1):
+    print(fib(i), end = ",")
+
+
+# Fibonacci 費波娜西數列
+x = int(input("請輸入數列第一個數值"))
+y = int(input("請輸入數列第二個數值"))
+z = int(input("請輸入數列個數"))
+def fib(x, y, z):    
+    result = [0] * z    
+    result[0] = x
+    result[1] = y    
+    for i in range(2, z):
+        result[i] = result[i-1] + result[i-2]        
+    print("此數列為{}".format(result))
+fib(x, y, z)
+
+
+# Fibonacci 費波娜西數列
+x = int(input("請輸入數列第一個數值"))
+y = int(input("請輸入數列第二個數值"))
+z = int(input("請輸入數列個數"))
+def fib(x, y, z):    
+    result = []    
+    result.append(x)
+    result.append(y)   
+    for i in range(2,z):
+        result.append((result[i-1]) + (result[i-2]))        
+    print("此數列為{}".format(result))
+fib(x, y, z)
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+# plot() 折線圖
+#
+x = np.arange(1, 10, 0.01)
+y = np.square(x)
+plt.plot(x,y, color ='blue') # 畫圖
+plt.show()  # 呈現圖示
+
+
+#
+x = [5, 4, 3, 2, 1]
+y = [1, 2, 3, 4, 5]
+plt.plot(x,y ,":", color = "red")
+plt.axis([1, 5, 1, 5])  # 設定座標軸顯示範圍plt.axis([xmin, xmax, ymin, ymax])
+plt.grid()  # 顯示格線
+plt.title("Sample")  # 標題
+plt.xlabel("x")  # x軸標題
+plt.ylabel("y")  # y軸標題
+plt.show()
+
+#
+x = [1,2,3,4]
+y = [10,20,15,25]
+plt.plot(x, y, color='blue', linestyle='--', linewidth=2, marker='o', markersize=8, markerfacecolor='red', label='Data', alpha=0.8)
+plt.legend()
+plt.show()
+
+
+#
+x = [1,2,3,4]
+y = [1,4,2,5]
+plt.plot(x, y, linestyle='--', dash_capstyle='round', dash_joinstyle='round', drawstyle='steps-post', antialiased=True, label='Data')
+plt.legend(
+    loc='best',
+    # loc='upper right',
+    # loc='upper left',
+	# bbox_to_anchor=(1,1),  # 圖例放圖外
+    fontsize=10,
+    frameon=False,
+    # frameon=True,
+	# framealpha=0.8,
+    # facecolor='white',
+    # edgecolor='gray',
+	# shadow=True,
+    # handlelength=1.5,  # 線的長度
+    # handletextpad=0.5,  # 線與文字距離
+    # borderaxespad=0.5,  # 圖例和座標軸之間距離	
+)
+plt.show()
+
+
+#
+x = [1, 2, 3, 4]
+plt.plot(x, [1, 2, 3, 4], label="Line A")
+plt.plot(x, [4, 3, 2, 1], label="Line B")
+plt.plot(x, [2, 3, 2, 3], label="Line C")
+plt.plot(x, [3, 2, 3, 2], label="Line D")
+plt.legend(
+    ncol=2,              # 分成 2 欄
+    columnspacing=2.0,   # 欄與欄之間的距離
+    labelspacing=0.5     # 每一列(上下)之間距離
+)
+plt.title("Legend Layout Demo")
+plt.show()
+
+
+#
+x = np.array([5, 4, 3, 2, 1])
+y = pow(x, 3)
+plt.axis([1, 6, 1, 150])
+plt.text(4.5,135,'maximum value')
+plt.title("The result")
+plt.grid()
+plt.plot(x,y, label = "y = x ** 3")
+plt.scatter(5, 125, alpha = 1, marker='o', edgecolors='g')
+plt.legend(loc='upper left')
+plt.show()
+
+
+#
+x = np.array([5, 4, 3, 2, 1])
+y = pow(x, 3)
+z = pow(x, 4)
+w = pow(x, 5)
+plt.plot(x, y, label = "x ** 3")
+plt.plot(x, z, label = "x ** 4")
+plt.plot(x, w, label = "x ** 5")
+plt.legend()
+plt.title("The result")
+plt.text(4.5, 200, "x ** 3")
+plt.text(4, 400, "x ** 4")
+plt.text(3.5, 900, "x ** 5")
+plt.show()
+
+
+#
+x = np.array([5, 4, 3, 2, 1])
+y1 = 5*x + 10
+y2 = np.exp(x)
+y3 = (x-3)**2 + 2
+plt.plot(x, y1, label = "5*x + 10")
+plt.plot(x, y2, label = "e**x")
+plt.plot(x, y3, label = "(x-3)**2 + 2")
+plt.legend()
+plt.title("Practice", loc = "right")
+plt.grid()
+plt.xlabel("x value")
+plt.ylabel("y value")
+plt.text(4.0, 10, "5*x + 10")
+plt.text(4.5, 40, "e**x")
+plt.text(3.5, 100, "(x-3)**2 + 2")
+plt.scatter(4.5, 100, alpha = 0.5, marker = "o", edgecolors = "black") #虛點
+plt.scatter(4.0, 60, alpha = 1, marker = "o", edgecolors = "black") #實點
+plt.scatter(5.0, 40, color = "", marker = "o", edgecolors = "black") #空點
+plt.show()
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+# plt.hist() 直方圖
+#
+data = [1,2,2,3,3,3,4,4,5]
+plt.hist(data, bins=5, color='green', edgecolor='black', density=True)
+plt.show()
+
+
+#
+data = np.random.randn(1000)
+data1 = np.random.randn(1000)
+data2 = np.random.randn(1000)
+
+plt.hist(data)  # 👉 基本畫圖
+plt.show()
+
+plt.hist(data, bins=20)  # 👉 控制精細度
+plt.show()
+
+plt.hist(data, density=True)  # 👉 畫機率分布
+plt.show()
+
+plt.hist([data1, data2], stacked=True)  # 👉 多組資料
+plt.show()
+
+
+# histtypes:# bar（預設）、# barstacked 多組資料會「堆疊在一起」、# step 只有線條（像輪廓圖）、# stepfilled 有填色 + 外框線
+#
+data = np.random.randn(1000)
+fig, axs = plt.subplots(2, 2, figsize=(10, 8))  # 建立子圖
+histtypes = ['bar', 'barstacked', 'step', 'stepfilled']
+for ax, htype in zip(axs.ravel(), histtypes):
+    ax.hist(data, bins=20, histtype=htype, color='green', edgecolor='black')
+    ax.set_title(f"histtype = '{htype}'")
+plt.tight_layout()
+plt.show()
+
+
+#
+np.random.seed(0)
+data1 = np.random.normal(0, 1, 1000)
+data2 = np.random.normal(2, 1, 1000)
+plt.hist([data1, data2], bins=30, stacked=True, label=['Data 1', 'Data 2'], edgecolor='black')
+plt.legend()
+plt.title("stacked=True")
+plt.show()
+
+
+#
+data1 = np.random.randn(1000)
+data2 = np.random.randn(1000)
+plt.hist([data1, data2], bins=30, stacked=True, density=True, alpha=0.7, label=['A', 'B'])
+plt.show()
+
+
+#
+data1 = np.random.normal(loc=0, scale=1, size=1000)
+data2 = np.random.normal(loc=2, scale=1.5, size=1000)
+plt.hist(data1, bins=30, density=True, histtype='step', linewidth=2, alpha=0.3, label='Data 1')
+plt.hist(data2, bins=30, density=True, histtype='step', linewidth=2, alpha=0.3, label='Data 2')
+x = np.linspace(-5, 8, 500)  # KDE（平滑曲線）
+kde1 = gaussian_kde(data1)
+kde2 = gaussian_kde(data2)
+plt.plot(x, kde1(x), linestyle='--')
+plt.plot(x, kde2(x), linestyle='--')
+plt.legend()
+plt.title("Histogram + KDE comparison")
+plt.xlabel("Value")
+plt.ylabel("Density")
+plt.show()
+
+
+#
+data = np.random.randn(1000)
+#sns.histplot(data, kde=True)
+sns.distplot(data)  # 已被棄用但舊版可用
+plt.show()
+sns.kdeplot(data)
+plt.show()
+
+
+# hist：真實資料分箱、kdeplot：數學平滑、boxplot：摘要統計、violinplot：完整分布
+#
+np.random.seed(42)
+data = np.concatenate([
+    np.random.normal(0, 1, 500),
+    np.random.normal(5, 1, 500)
+])
+fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+
+#
+axs[0, 0].hist(data, bins=30, edgecolor='black')
+axs[0, 0].set_title("Histogram")
+
+#
+sns.kdeplot(data, ax=axs[0, 1])
+axs[0, 1].set_title("KDE")
+
+#
+sns.boxplot(x=data, ax=axs[1, 0])
+axs[1, 0].set_title("Boxplot")
+
+#
+sns.violinplot(x=data, ax=axs[1, 1])
+axs[1, 1].set_title("Violin plot")
+
+plt.tight_layout()
+plt.show()
+
+
+# bins = int（指定幾組）
+data = np.random.randn(1000)
+plt.hist(data, bins=10, edgecolor='black')
+plt.title("bins = 10")
+plt.show()
+
+
+# bins = list（自訂區間）
+data = np.random.uniform(0, 10, 1000)
+bins = [0, 2, 4, 6, 8, 10]  # 自訂區間
+plt.hist(data, bins=bins, edgecolor='black')
+plt.title("bins = custom list")
+plt.show()
+
+
+# bins = 'auto'（自動最佳化）
+data = np.random.randn(1000)
+plt.hist(data, bins='auto', edgecolor='black')
+plt.title("bins = 'auto'")
+plt.show()
+
+
+# bins = 'fd'（Freedman–Diaconis）  # 大數據/有離群值，資料很多（>1000）或很亂，有離群值、偏態分布、真實資料，2*IQR/n^(1/3)，用IQR計算，抗離群值outlier、較準確，bins可能很多
+plt.hist(data, bins='fd', edgecolor='black')
+plt.title("bins = 'fd'")
+plt.show()
+
+
+# bins = 'sturges'  # 小樣本（n<200），log2(n) + 1，假設近似常態分布，簡單、穩定，資料多時會過度簡化
+plt.hist(data, bins='sturges', edgecolor='black')
+plt.title("bins = 'sturges'")
+plt.show()
+
+
+# bins = 'sqrt'  # 快速估計，bins ≈ √n，計算快，不精準
+plt.hist(data, bins='sqrt', edgecolor='black')
+plt.title("bins = 'sqrt'")
+plt.show()
+
+
+#
+data = np.random.exponential(scale=2, size=1000)
+methods = ['sturges', 'sqrt', 'fd', 'auto']
+for m in methods:
+    plt.hist(data, bins=m, alpha=0.5, label=m)
+plt.legend()
+plt.title("Binning methods comparison")
+plt.show()
+
+
+#
+np.random.seed(42)  # 隨機種子
+data = np.concatenate([
+    np.random.normal(0, 1, 500),
+    np.random.normal(5, 1, 500)
+])
+bins_settings = [5, 10, 30, 'auto']  # 不同 bins 設定
+fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+for ax, b in zip(axs.ravel(), bins_settings):
+    ax.hist(data, bins=b, edgecolor='black')
+    ax.set_title(f"bins = {b}")
+plt.tight_layout()
+plt.show()
+
+
+#
+np.random.seed(42)
+normal = np.random.normal(0, 1, 1000)              # 常態
+skewed = np.random.exponential(2, 1000)            # 偏態
+bimodal = np.concatenate([                         # 雙峰
+    np.random.normal(-2, 1, 500),
+    np.random.normal(3, 1, 500)
+])
+datasets = [normal, skewed, bimodal]
+titles = ["Normal", "Skewed", "Bimodal"]
+methods = ['sturges', 'fd', 'auto']
+fig, axs = plt.subplots(3, 3, figsize=(12, 10))
+for i, data in enumerate(datasets):
+    for j, m in enumerate(methods):
+        axs[i, j].hist(data, bins=m, edgecolor='black')
+        axs[i, j].set_title(f"{titles[i]} | bins='{m}'")
+
+plt.tight_layout()
+plt.show()
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+# plt.bar() 長條圖  # plt.bar = 垂直柱狀  # plt.barh = 水平柱狀
+#
+x = ['A', 'B', 'C']
+y = [10, 15, 7]
+plt.bar(x, y, color='green', edgecolor='black', linewidth=1.5, alpha=0.8, tick_label=x, label='Scores')
+plt.ylabel('Value')
+plt.title('Bar chart example')
+plt.legend()
+plt.show()
+
+
+#
+x = ['A', 'B', 'C']
+y = [10, 15, 7]
+plt.bar(x, y, color='skyblue', edgecolor='black', linewidth=1.5, alpha=0.8, tick_label=x, label='Scores')
+plt.ylabel('Value')
+plt.title('Bar chart example')
+plt.legend()
+plt.show()
+
+
+#
+x = np.arange(3)
+y1 = [3, 5, 2]
+y2 = [2, 3, 4]
+plt.bar(x, y1, label='Y1')
+plt.bar(x, y2, bottom=y1, label='Y2')  # 堆疊
+plt.xticks(x, ['A','B','C'])  # 設定 X 軸刻度標籤
+plt.legend()
+plt.show()
+
+
+#
+x = np.arange(3)
+y1 = [5, 7, 3]
+y2 = [2, 4, 5]
+fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+
+# 基本柱狀
+axs[0, 0].bar(x, y1, color='skyblue', edgecolor='black')
+axs[0, 0].set_title("Basic bar")
+
+# 堆疊柱狀圖
+axs[0, 1].bar(x, y1, label='Y1', color='skyblue')
+axs[0, 1].bar(x, y2, bottom=y1, label='Y2', color='orange')
+axs[0, 1].set_title("Stacked bar")
+axs[0, 1].legend()
+
+# 水平柱狀圖 + 調整寬度
+axs[1, 0].barh(x, y1, height=0.5, color='green', edgecolor='black')
+axs[1, 0].set_title("Horizontal bar")
+
+# 自訂透明度 + hatch
+axs[1, 1].bar(x, y1, color='red', alpha=0.5, hatch='//', edgecolor='black')
+axs[1, 1].set_title("Alpha + Hatch")
+
+plt.tight_layout()
+plt.show()
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+# plt.pie() 圓餅圖
+#
+sizes = [25, 35, 20, 20]
+labels = ['A', 'B', 'C', 'D']
+explode = [0, 0.1, 0, 0]  # 第二塊突出
+# explode = [0, 0.1, 0, 0.05]  # 第二和第四塊突出
+
+plt.pie(sizes, 
+	labels=labels, 
+	autopct='%1.1f%%', 
+	labeldistance=1.2, 
+	# pctdistance=0.7,
+	explode=explode,
+	# shadow=True,
+	# startangle=90,
+	wedgeprops={'edgecolor':'black', 'linewidth':1.5}, 
+	textprops={'fontsize':12, 'color':'white'},
+)
+plt.title("Pie chart example")
+plt.show()
+
+
+#
+df = pd.DataFrame({
+    'Category': ['A','B','C'],
+    'Value': [30, 50, 20]
+})
+plt.pie('Value', labels=df['Category'], data=df)
+plt.show()
+
+
+#
+sizes = [30, 50, 20]
+labels = ['A','B','C']
+plt.pie(sizes, labels=labels)
+plt.legend(title="Data")  # 這裡設定圖例標題
+plt.show()
+
+
+
+
+#---------------------------------------------------------------------------------------
+
+
+
