@@ -1,7 +1,7 @@
 # Data Analysis
 These projects focus on data analysis using Python, R.
 
-Technology: **Python, R**
+Technology: **Python, R**  
 Development Tools: **VSCode, Anaconda, RStudio**
 
 ## Projects
