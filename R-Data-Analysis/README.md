@@ -11,9 +11,8 @@ Technology: **R, RStudio**
 
 ## Summary
 - install.packages() & library() & datasets
-- class()
-- typeof()
-- summary() 敘述性統計分析 Narrative statistical analysis
-- ts() 時間序列分析 Time series analysis
-- read.csv() 讀取檔案 Read the file
-- plot() 圖表分析 Chart Analysis
+- class() & typeof()
+- summary() 👉🏼 敘述性統計分析 Narrative statistical analysis
+- ts() 👉🏼 時間序列分析 Time series analysis
+- read.csv() 👉 讀取檔案 Read the file
+- plot() 👉 圖表分析 Chart Analysis
