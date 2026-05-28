@@ -1,0 +1,1213 @@
+# R Analyze Example
+
+
+1.目錄
+- packages
+- datasets
+
+- crx.data
+- bank-full.csv
+- birth.csv 散佈圖plot(birth~death, data = birth)
+- crime.csv
+- marketing-budget.csv
+- NH_CovidVaxProvider_20211003.csv
+- Payment_and_value_of_care_-_Hospital.csv
+- stock.csv
+- Titanic.csv
+- TSM.csv
+- banknote.txt
+- cereals.txt 箱型圖boxplot(sugars~shelf, cereals) 散佈圖plot(cereals$fiber~cereals$potass) 相關係數 變異數分析summary(lm(cereals$fiber~cereals$potass)) 統計表格table(cereals$mfr, cereals$fiber)
+- crx.txt
+- MensTrack.txt 散佈圖plot(X100m, X200m)  成對散佈圖pairs(df[,-1])
+- motorcrash.txt 散佈圖plot(time, acceleration) 散佈圖plot(acceleration~time, data = df)
+- ca.dat 散佈圖plot(TotalRooms~TotalBedrooms, data = ca) 散佈圖plot(Longitude~Latitude, ca) 散佈圖plot(ca$Latitude, ca$Longitude, type = 'p') 十分位數quantile(log(ca$MedianHouseValue), probs = 0:10/10) 把連續資料分組cut(log(ca$MedianHouseValue), price.decile) 散佈圖plot(ca$Longitude, ca$Latitude)
+- Forbes1986.data 散佈圖plot(df)
+- queryRVFile.xls
+- stock.xls
+- Payment_and_value_of_care_-_Hospital.xlsx
+- stock.xlsx
+- TSM.xlsx
+- birth.dat
+- cars.sas7bdat
+- bodyfat.sav 散佈圖plot(bodyfat) 相關係數 變異數分析summary(lm(BodyFat~., bodyfat)) 相關係數 變異數分析summary(lm(Triceps~Thigh+Midarm+BodyFat))
+- dealership.sav
+- SalarySurvey.sav
+- Greenhousegases.ods
+- titanic.raw.rdata
+- homicides.txt 數量 集合length(grep())
+- sdn.xml 網頁結構xmlRoot(sdn)
+
+- `mtcars` 資料型態 資料結構 摘要class() str() summary() head() names() dim()
+- `tree` 向量trees$Height
+- `Titanic` 列聯表table()
+
+- paste() & rep() & sample() & sort() & formula()
+
+- `iris` 散佈圖plot(iris$Sepal.Length, iris$Sepal.Width) 成對散佈圖pairs(iris) 隨機分成二組split(iris, sample(rep(1:2, 75))) 顯示指定資料subset(iris, Sepal.Length > 5, select = Sepal.Length)
+- 折線圖 格線 圖例plot() & grid() & legend()
+- 長條圖ggplot(table_data, aes(x = Var1, y = Freq, fill = Var2)) 群組data %>% group_by(employee) %>% summarize(total_sales = sum(sales)) 隨機變數round(runif(9, 2000, 5000), 0) 資料表as.data.frame(table(data$employee, data$complaints))
+- 直方圖hist(x, freq = F, breaks = seq(303.5,335.5, 4)) 直線abline(v = mx+2*sx, col = "red", lwd = 2) 介在一倍標準差之內的數值數量 介在二倍標準差之內的數值數量
+- 散佈圖plot(x, y,pch = 20) 擬合曲線lines(x,lm(y~x)$fit,col = 'red') 抽樣sample(1:30,15,replace = T)
+- 曲線 散佈圖plot() & curve()
+- getSymbols() & chartSeries() & addTA() & candleChart() & barChart() & lineChart() & charts.PerformanceSummary()
+
+- 散佈圖plot(x, y, pch = 10, cex = 1.5, lwd = 2) 產生迴歸係數 cbind(x = x, y = y) 
+- 散佈圖plot(X[,2], y, xlim = c(-3, 3), ylim = c(-10, 10)) 迴歸係數矩陣 相關係數lm(y~X)
+- `faithful` 直方圖hist(faithful$waiting, prob = T) 密度曲線lines(density(faithful$waiting)) 散佈圖plot(faithful$waiting, faithful$eruptions, pch = 19) 擬合曲線abline(fit$coef) 相關係數lm(eruptions~waiting, data=faithful)
+- `cars` 散佈圖plot(cars, main = "Stopping Distance versus Speed") 擬合曲線lines(lowess(cars))
+
+- `AirPassengers` 折線圖plot(xts.AP) 把"ts"資料轉成"xts"+"zoo"資料as.xts(AirPassengers)
+- fancy.dat網路抓取資料 折線圖 plot(xts.AP) 把"numeric"資料轉成"ts"資料 ts(fancy, frequency = 12, start = c(1987,1)) 把"ts"資料轉成"xts"+"zoo"資料 as.xts(log(fancy))
+- youbike_immediate.json網路抓取資料 把"character"資料轉成"POSIXct"+"POSIXt"資料as.POSIXct(youbike$infoTime, format='%Y-%m-%d %H:%M:%S') 把"list"或"data.frame"資料轉成"data.frame"資料data.frame(youbike) 
+- tui.csv 折線圖plot(tui.close) 把"int"資料轉成"character"資料，再轉成"Date"資料as.Date(as.character(tui[,'date']), format='%Y%m%d') 把"data.frame"資料轉成"xts"+"zoo"資料xts(tui['close'], order.by = tui[,'date'])
+
+- for & next & break & switch & stop & ifelse & repeat & while & do
+- Fibonacci 費波娜西數列 & 黃金比例1.618 & 計算理論收斂值並逼近收斂值1.414214
+- 牛頓法求根（Newton Method） & 二分法求根（Bisection Method） & 平方根（DoubleSquared）
+
+
+
+# packages
+#install.packages("xts")
+#install.packages("dplyr")
+#install.packages("tibble")
+#install.packages("readxl")
+#install.packages("foreign")
+#install.packages("tree")
+#install.packages("readODS")
+#install.packages("XML")
+#install.packages("jsonlite")
+#install.packages("sas7bdat")
+#install.packages("haven")
+#install.packages("ggplot2")
+#install.packages("stats")
+#install.packages("quantmod")
+#install.packages("zoo")
+#install.packages("TTR")
+#install.packages("PerformanceAnalytics")
+
+library(xts)
+library(dplyr)
+library(tibble)
+library(readxl)
+library(foreign)
+library(tree)
+library(readODS)
+library(XML)
+library(jsonlite)
+library(sas7bdat)
+library(haven)
+library(ggplot2)
+library(stats)
+library(quantmod)
+library(zoo)
+library(TTR)
+library(PerformanceAnalytics)
+
+
+
+# datasets
+#library(help = "datasets")
+library(datasets)
+
+
+
+# read
+# crx.data
+# --- 變數名稱 ---
+varNames =c('Male', 'Age', 'Debt', 'Married', 'BankCustomer',
+            'EducationLevel', 'Ethnicity', 'YearsEmployed',
+            'PriorDefault', 'Employed', 'CreditScore', 'DriversLicense',
+            'Citizen', 'ZipCode', 'Income', 'Approved')
+# --- 變數類型 ---
+varClass = c('factor', 'numeric', 'numeric', 'factor',
+             'factor', 'factor', 'factor', 'numeric', 
+             'factor', 'factor', 'numeric', 'factor', 
+             'factor', 'factor', 'numeric', 'factor')
+# --- 載入資料 ---
+crx = read.csv("C:/Users/user/Desktop/data/crx.data",
+               col.names = varNames,
+               colClasses = varClass,
+               sep = ",",
+               skip = 17,
+               na.strings = "?",  # 遺失值以問號表示
+               header = FALSE)
+head(crx)
+class(crx)
+
+
+# bank-full.csv
+bankfull <- read.csv("C:/Users/user/Desktop/data/bank-full.csv", 
+                     sep=';', 
+                     header=T)
+head(bankfull)
+class(bankfull)
+
+
+# birth.csv
+birth = read.csv('C:/Users/user/Desktop/data/birth.csv', header = F)
+birth = read.table('C:/Users/user/Desktop/data/birth.csv', sep=',')
+names(birth) = c('country', 'birth', 'death')  # 欄位名稱
+head(birth)
+class(birth)
+plot(birth~death, data = birth)  # 散佈圖
+
+
+# crime.csv
+crime = read.csv("C:/Users/user/Desktop/data/crime.csv",
+                 sep = ",",
+                 skip = 12,
+                 header = T)
+head(crime)
+class(crime)
+head(crime[-1])  # 刪除第一個資料變數
+crime[,1]  # 顯示資料筆數
+
+
+# marketing-budget.csv
+df <- read.csv('C:/Users/user/Desktop/data/marketing-budget.csv',
+               header = T)
+head(df)
+class(df)
+
+
+# NH_CovidVaxProvider_20211003.csv
+# --- 變數類型 ---
+varClass = c('character', 'factor', 'character', 'character', 'character')
+
+# --- 載入資料 ---
+df = read.csv("C:/Users/user/Desktop/data/NH_CovidVaxProvider_20211003.csv",
+              colClasses = varClass,
+              na.strings = "Not Available",  # 遺失值以Not Available表示
+              header = TRUE)
+head(df)
+class(df)
+
+
+# Payment_and_value_of_care_-_Hospital.csv
+df = read.csv('C:/Users/user/Desktop/data/Payment_and_value_of_care_-_Hospital.csv',
+              na.strings="Not Available")  # 遺失值以Not Available表示
+head(df)
+class(df)
+
+
+# stock.csv
+stock = read.csv("C:/Users/user/Desktop/data/stock.csv")
+head(stock)
+class(stock)
+
+
+# Titanic.csv
+df = read.csv('C:/Users/user/Desktop/data/Titanic.csv')
+head(df)
+class(df)
+
+
+# TSM.csv
+df = read.csv('C:/Users/user/Desktop/data/TSM.csv')
+head(df)
+class(df)
+
+
+# banknote.txt
+banknote = read.table("C:/Users/user/Desktop/data/banknote.txt",
+                      sep = ",",
+                      header = FALSE,
+                      col.names = c("xvar","wskew","wcurt","etrpy","false"))
+banknote$false <- factor(banknote$false, labels = c("true", "false"))  # 把"int"資料轉成"factor"資料
+head(banknote)
+class(banknote)
+
+
+# cereals.txt
+# --- 變數類型 ---
+varClass = c('character', 'factor', 'factor', 'integer',
+             'integer', 'integer', 'integer', 'numeric', 
+             'numeric', 'integer', 'integer', 'integer', 
+             'integer', 'numeric', 'numeric', 'numeric')
+# --- 載入資料 ---
+cereals = read.table("C:/Users/user/Desktop/data/cereals.txt",
+                     colClasses = varClass,
+                     skip = 18,
+                     header = TRUE,
+                     sep = "")
+
+head(cereals)
+class(cereals)
+boxplot(sugars~shelf, cereals)  # 箱形圖
+boxplot(fiber~shelf, cereals)
+boxplot(vitamins~shelf, cereals)
+boxplot(rating~shelf, cereals)
+
+plot(cereals$fiber~cereals$potass)  # 散佈圖
+plot(fiber~potass, cereals)
+plot(rating~calories, cereals)
+
+x = lm(cereals$fiber~cereals$potass)  # 相關係數
+print(x)
+summary(x)  # 變異數分析
+
+a = table(cereals$mfr, cereals$fiber)  # 統計表格
+print(a)
+boxplot(cereals$fiber, cereals$mfr, a)  # 箱形圖
+boxplot(cereals$mfr,cereals$fiber, a)
+
+
+# crx.txt
+df = read.table('C:/Users/user/Desktop/data/crx.txt',
+                header = TRUE,
+                sep = ",")
+head(df)
+class(df)
+
+
+# MensTrack.txt
+df = read.table('C:/Users/user/Desktop/data/MensTrack.txt',
+                skip = 21,
+                header = TRUE,
+                sep = "")
+head(df)
+class(df)
+names(df)  # 變數名稱
+attach(df)  # 加入所有變數
+#detach(df)  # 去除所有變數
+plot(X100m, X200m)  # 散佈圖
+pairs(df[,-1])  # 成對散佈圖，去除第一個變數 country
+
+
+# motorcrash.txt
+df = read.table('C:/Users/user/Desktop/data/motorcrash.txt',
+                header = TRUE,
+                sep = "")
+head(df)
+class(df)
+names(df)  # 變數名稱
+attach(df)  # 加入所有變數
+#detach(df)  # 去除所有變數
+plot(time, acceleration)  # 散佈圖
+plot(acceleration~time, data = df)
+
+
+# ca.dat
+ca <- read.table('C:/Users/user/Desktop/data/ca.dat',
+                 skip = 2,  # skip忽略前二列
+                 header = T)
+head(ca)
+class(ca)
+plot(TotalRooms~TotalBedrooms, data = ca)  #散佈圖
+plot(Longitude~Latitude, ca)
+plot(ca$Latitude, ca$Longitude, type = 'p')
+
+price.decile = quantile(log(ca$MedianHouseValue), probs = 0:10/10)  # 十分位數
+cut.price = cut(log(ca$MedianHouseValue), price.decile, # 數值轉換因子
+                include.lowest = TRUE,
+                right = TRUE)  # default
+head(cut.price)
+levels(cut.price)  # 顯示層級
+
+plot(ca$Longitude, ca$Latitude,
+     col = heat.colors(10)[cut.price],
+     #col = gray.colors(10)[cut.price],
+     pch = 20,
+     xlab = "Longitude", ylab = "Latitude")
+
+
+# Forbes1986.data
+df = read.table('C:/Users/user/Desktop/data/Forbes1986.data',
+                skip = 14,
+                header = TRUE,
+                sep = "") 
+head(df)
+class(df)
+plot(df)  # 散佈圖
+
+
+# queryRVFile.xls
+query = read_excel("C:/Users/user/Desktop/data/queryRVFile.xls",
+                   skip = 1)
+query = as.data.frame(query)  # 把"tbl_df"+"tbl"+"data.frame"資料轉成"data.frame"資料
+head(query)
+class(query)
+
+
+# stock.xls
+stock = read_excel("C:/Users/user/Desktop/data/stock.xls",
+                   sheet='x6505')
+stock = as.data.frame(stock)  # 把"tbl_df"+"tbl"+"data.frame"資料轉成"data.frame"資料
+head(stock)
+class(stock)
+
+
+# Payment_and_value_of_care_-_Hospital.xlsx
+stock = read_excel("C:/Users/user/Desktop/data/Payment_and_value_of_care_-_Hospital.xlsx")
+stock = as.data.frame(stock)  # 把"tbl_df"+"tbl"+"data.frame"資料轉成"data.frame"資料
+head(stock)
+class(stock)
+
+
+# stock.xlsx
+stock = read_excel("C:/Users/user/Desktop/data/stock.xlsx",
+                   sheet='x6505')
+stock = as.data.frame(stock)  # 把"tbl_df"+"tbl"+"data.frame"資料轉成"data.frame"資料
+head(stock)
+class(stock)
+
+
+# TSM.xlsx
+df = read_excel("C:/Users/user/Desktop/data/TSM.xlsx",
+                sheet='UMC')
+df = as.data.frame(df)  # 把"tbl_df"+"tbl"+"data.frame"資料轉成"data.frame"資料
+head(df)
+class(df)
+
+
+# birth.dat
+birth = read.fwf("C:/Users/user/Desktop/data/birth.dat",  # 第一欄15個字，第二欄4個字，第三欄7個字(包含空格)
+                 c(15,4,7),
+                 col.names = c('country', 'birth', 'death'))
+head(birth)
+class(birth)
+
+birth = read.fwf("C:/Users/user/Desktop/data/birth.dat",  # 忽略第二欄4個字的欄位 birth
+                 c(15,-4,7),
+                 col.names = c('country', 'death'))
+head(birth)
+class(birth)
+
+
+# cars.sas7bdat
+sascars = read.sas7bdat("C:/Users/user/Desktop/data/cars.sas7bdat")
+head(sascars)
+class(sascars)
+
+
+# bodyfat.sav
+bodyfat = read.spss("C:/Users/user/Desktop/data/bodyfat.sav",
+                    col.names=c('Triceps','Thigh','Midarm','BodyFat'),
+                    to.data.frame=TRUE)
+head(bodyfat)
+class(bodyfat)
+plot(bodyfat)  # 散佈圖
+fit = lm(BodyFat~., bodyfat)  # 相關係數
+print(fit)
+summary(fit)  #變異數分析
+
+
+names(bodyfat)  # 變數名稱
+attach(bodyfat)  # 加入所有變數
+#detach(bodyfat)  # 去除所有變數
+fit = lm(Triceps~Thigh+Midarm+BodyFat)  # 相關係數
+print(fit)
+summary(fit)  #變異數分析
+
+
+# dealership.sav
+dealership = read.spss("C:/Users/user/Desktop/data/dealership.sav",
+                       to.data.frame=TRUE)
+head(dealership)
+class(dealership)
+
+
+# SalarySurvey.sav
+SalarySurvey = read.spss("C:/Users/user/Desktop/data/SalarySurvey.sav",
+                         to.data.frame=TRUE)
+head(SalarySurvey)
+class(SalarySurvey)
+
+
+# Greenhousegases.ods
+Greenhousegases = read_ods("C:/Users/user/Desktop/data/Greenhousegases.ods",
+                           sheet="10_歷年垃圾濕基低位發熱量")
+Greenhousegases = as.data.frame(Greenhousegases)  # 把"tbl_df"+"tbl"+"data.frame"資料轉成"data.frame"資料
+head(Greenhousegases)
+class(Greenhousegases)
+
+
+# titanic.raw.rdata
+df = load('C:/Users/user/Desktop/data/titanic.raw.rdata')
+head(df)
+class(df)
+
+
+# homicides.txt  # https://homicides.news.baltimoresun.com/
+homicides <- readLines("C:/Users/user/Desktop/data/homicides.txt",)
+head(homicides)
+class(homicides)
+homicides[2]  # 顯示第二筆資料
+
+length(grep("iconHomicideShooting", homicides))  # 數量
+length(grep("iconHomicideShooting|icon_homicide_shooting", homicides))
+length(grep("Cause: shooting", homicides))
+length(grep("Cause: [Ss]hooting", homicides))
+length(grep("[Ss]hooting", homicides))
+
+x = grep("[Ss]hooting", homicides)
+y = grep("Cause: [Ss]hooting", homicides)
+setdiff(x,y)  # 傳回第一個集合中但不在第二個集合中的元素
+homicides[318]
+
+
+# sdn.xml
+sdn <- xmlTreeParse("C:/Users/user/Desktop/data/sdn.xml",
+                    useInternalNodes = TRUE)
+class(sdn)  # "XMLInternalDocument"+"XMLAbstractDocument"
+rootNode <- xmlRoot(sdn)  # 網頁結構
+print(rootNode)
+xmlName(rootNode)  # 最外層的XML tag
+names(rootNode)  # 第二層的XML tag
+rootNode[[1]]  # 第一組XML
+rootNode[[1]][[1]]  # 第一組第一行XML
+
+
+#
+doc <- xmlParse("
+<people>
+  <person><name>Alice</name></person>
+  <person><name>Bob</name></person>
+</people>
+")
+class(sdn)  # "XMLInternalDocument"+"XMLAbstractDocument"
+rootNode <- xmlRoot(doc)  # 網頁結構
+print(rootNode)
+xmlName(rootNode)  # 最外層的XML tag
+names(rootNode)  # 第二層的XML tag
+rootNode[[1]]  # 第一組XML
+rootNode[[1]][[1]]  # 第一組第一行XML
+xpathSApply(rootNode, "//name", xmlValue)
+xpathApply(rootNode, "//name")  # Get nodes instead of text
+xpathSApply(rootNode, "//person", xmlGetAttr, "id")  # Extract attributes
+
+
+# 資料表data.frame
+mtcars
+class(mtcars)  # 資料型態
+str(mtcars)  # 資料結構
+summary(mtcars)  # 摘要
+names(mtcars)  # 變數名稱
+dim(mtcars)  # 維度
+ncol(mtcars)  # 欄數(直行橫列)
+nrow(mtcars)  # 列數(直行橫列)
+colnames(mtcars)  # 欄名(直行橫列)
+rownames(mtcars)  # 列名(直行橫列)
+dimnames(mtcars)  # 列名+欄名(list列表)
+dimnames(mtcars)[[1]]   # 列名+欄名(list列表1)
+dimnames(mtcars)[[2]]   # 列名+欄名(list列表2)
+head(mtcars)  # 前六筆資料
+head(mtcars, 2)  # 前二筆資料
+tail(mtcars)  # 後六筆資料
+tail(mtcars, 2)  # 後二筆資料
+view(mtcars)  # 資料檢視器
+
+
+# 函數物件function
+tree  # 變數Girth、Height、Volume
+trees$Height  # 變數向量
+trees[trees$Height > 82, ]  # 變數大於82的資料
+trees[trees$Height < 70, ]  # 變數小於70的資料
+trees[trees$Girth > 12.5, ]  # 變數大於12.5的資料
+trees[3]  # 第三個變數(dataframe)
+trees[,3]  # 第三個變數(向量)
+trees[2:3, ]  # 第二筆到第三筆資料
+
+
+# 列聯表/計數表/頻率表table
+Titanic  #變數 class、Sex、Age、Survived  #行變數class；列變數Sex；分類變數Age、Survived(直行橫列)
+
+ftable(Titanic, row.vars = 1:3)  # 平面化列聯表  #行變數class、Sex、Age；列變數:Survived
+ftable(Titanic, row.vars = 1:2)  # 平面化列聯表  #行變數class、Sex；列變數:Age、Survived
+ftable(Titanic, row.vars = 1:2, col.vars = "Survived")  # 平面化列聯表  #行變數class、Sex；列變數:Survived
+
+margin.table(Titanic, c(2, 4, 1))  # 計算指定維度總和  #行變數Sex；列變數:Survived；分類變數:class
+margin.table(Titanic, c(2, 4))  # 計算指定維度總和  #行變數Sex；列變數:Survived
+
+prop.table(Titanic)  # 計算比例表  #行變數class；列變數:Sex；分類變數:Age、Survived
+prop.table(margin.table(Titanic, c(2, 4, 1)))  # 計算比例表  #行變數Sex；列變數:Survived；分類變數:class
+prop.table(margin.table(Titanic, c(2, 4)))  # 計算比例表  #行變數Sex；列變數:Survived
+
+addmargins(Titanic)  # 計算邊際總和  #行變數class；列變數:Sex；分類變數:Age、Survived
+
+
+#
+paste("a", 1:5, sep = "")  # "a1" "a2" "a3" "a4" "a5"
+paste("a", 1:5, sep = "", collapse = "+")  # "a1+a2+a3+a4+a5"
+
+
+#
+x = c("Petal.Length", "Petal.Width")
+pred = paste(x, collapse = " + ")  # "Petal.Length + Petal.Width"
+paste("Speices", pred, sep = "~")  # "Speices~Petal.Length + Petal.Width"
+formula(paste("Speices", pred, sep = "~"))  # 轉變成模型公式
+
+
+#52張牌隨機抽13張牌
+card = c("Spade", "Heart", "Diamond", "Club")
+num = c("A", 2:10, "K", "Q", "J")
+recard = rep(card, each = 13)
+deck.card = paste(recard, num, sep = " ")  # 52張
+deck.card[sample(1:52, 13)]  # 抽13張
+sort(deck.card[sample(1:52, 13)])  # 排序
+
+
+#
+split(iris, sample(rep(1:2, 75)))  # 隨機分成二組
+subset(iris, Sepal.Length > 5, select = Sepal.Length)  # 顯示 Sepal.Length > 5 的資料，只有Sepal.Length欄位
+subset(iris, Sepal.Length > 5, select = -Sepal.Length)  # 顯示 Sepal.Length > 5 的資料，除了Sepal.Length以外的欄位
+plot(iris$Sepal.Length, iris$Sepal.Width,  #散佈圖
+     col = c(1:3) [iris$Species],
+     pch = c(1, 4, 19) [iris$Species])
+
+plot(iris$Sepal.Length, iris$Sepal.Width, 
+     col = c("red", "blue") [iris$Species],
+     pch = c(19))
+
+pairs(iris)
+pairs(iris, lower.panel = NULL)
+pairs(iris, upper.panel = NULL)
+
+
+#
+x <- 1:12
+y <- c(2,3,5,4,6,7,8,7,9,10,11,12)
+plot(x, y,  # 折線圖
+     main="Monthly Sales Trend",  # 圖表標題
+     xlab="Month",  # x軸名稱
+     ylab="Sales",  # y軸名稱
+     col="steelblue",  # 圖形顏色
+     #col="darkorange",
+     #col="forestgreen",
+     #col="purple",
+     pch=16,  # 點的形狀
+     cex=1.5,  # 點的大小
+	 cex.main=1.8,  # 標題大小
+     cex.lab=1.3,  # x y 標籤
+     cex.axis=1.2,  # 刻度文字
+     type="b",  # 線的樣式
+     lwd=2,  # 線條粗細
+     lty=1,  # 線條種類
+     xlim=c(1,12),  # x軸範圍
+     ylim=c(1,12))  # y軸範圍
+
+grid()  # 格線
+
+legend("topleft",  # 圖例位置
+       #"topright",
+       #"bottomleft",
+       #"bottomright",
+       legend="Sales",  # 圖例文字
+       col="steelblue",  # 圖形顏色
+       cex=1.2,  # 圖例文字大小
+       bg="white",  # 圖例背景顏色
+       pch=16,  # 點的形狀
+       lwd=2,  # 線條粗細
+       box.lwd=1,  # 圖例框線粗細
+       inset=0.05)  # 距圖邊緣的內距
+
+
+#
+set.seed(50)
+data <- data.frame(
+        employee = c('A','B','A','A','B','C','A','B','C'),
+        sales = round(runif(9, 2000, 5000), 0),
+        complaints = c('Yes','No','Yes','Yes','Yes','Yes','No','No','Yes') )
+
+table_data <- as.data.frame(table(data$employee, data$complaints))
+ggplot(table_data, aes(x = Var1, y = Freq, fill = Var2)) +
+	   geom_bar(stat = "identity") +
+	   labs(title = "Employee Complaints", x = "Employee", y = "Count") +
+	   scale_fill_manual(values = c("No" = "blue", "Yes" = "red")) +  # Custom color palette
+       theme_minimal()
+
+total_sales <- data %>%
+               group_by(employee) %>%
+               summarize(total_sales = sum(sales))
+print(total_sales)  # 群組
+
+
+#
+x <- c(320,326,325,318,322,320,329,317,316,
+       331,320,320,317,329,316,308,321,319,
+       322,335,318,313,327,314,329,323,327,
+       323,324,314,308,305,328,330,322,310,
+       324,314,312,318,313,320,324,311,317,
+       325,328,319,310,324)
+
+hist(x, freq = F, breaks = seq(303.5,335.5, 4))
+mx = mean(x)
+sx = sd(x)
+
+abline(v = mx, col = "blue", lwd = 2)
+abline(v = mx+2*sx, col = "red", lwd = 2)
+abline(v = mx-2*sx, col = "red", lwd = 2)
+abline(v = mx+sx, col = "green", lwd = 2)
+abline(v = mx-sx, col = "green", lwd = 2)
+
+# 介在一倍標準差之內的數值數量
+i = 0
+true = 0
+for (i in x) {
+  if(i < (mx + sx) && i > (mx - sx)){
+    true = true + 1
+  }
+}
+print(true)
+
+# 介在二倍標準差之內的數值數量
+i = 0
+true = 0
+for (i in x) {
+  if(i < (mx + 2*sx) && i > (mx - 2*sx)){
+    true = true + 1
+  }
+}
+print(true)
+
+
+#
+x <- sample(1:30,15,replace = T)
+y <- 4.9 + 2.3 * x + 2 * rnorm(15)
+plot(x,y,pch = 20)  # 散佈圖
+lines(x,lm(y~x)$fit,col = 'red')  # 擬合曲線
+
+
+#
+x = seq(-4, 4, len = 1000)
+y = dnorm(x)
+plot(x,y, type = 'n')  # 不畫圖
+plot(x,y, type = 'l')  # line 線
+plot(x,y, type = 'h', col = 'gray')  # 垂直線
+plot(x,y, xlim = c(-10, 10), type = 'l', col = 'gray')  # x範圍
+
+
+#
+curve(dnorm(x), from = , to = , n = )  # 標準常態密度曲線
+curve(dnorm(x,60,3), from = , to = , n = )  # 常態密度曲線
+curve(df(x,3,4), from = , to = , n = )
+curve(dchisq(x,10), from = 0, to = 100, n = 10000)
+curve(dchisq(x,10), from = 0, to = 40, n = 10000)
+plot(x,x*sin(x), type = 'l', col = 'gray')
+plot(x,x*sin(1/x), type = 'l', col = 'gray')
+plot(x,x*sin(1/x^2), type = 'l', col = 'gray')
+plot(seq(-4, 4, len = 1000), dnorm(x), type = 'h', col = 'gray')
+plot(1:20, pch=1:20)  # 散佈圖
+
+
+
+# 微軟MSFT  # Yahoo finance
+getSymbols('MSFT', src='yahoo')
+plot(Cl(MSFT), major.ticks='years', col='blue')  # 折線圖
+barChart(MSFT["2020-01-01::2020-03-02",])  # 長條圖
+chartSeries(MSFT)  # K線圖
+chartSeries(MSFT, subset='last 4 weeks')  # K線圖
+candleChart(MSFT["2020-01-01::2020-03-02",])  # 蠟燭圖
+lineChart(MSFT["2020-01-01::2020-03-02",])  # 折線圖
+
+
+
+#聯發科2454
+getSymbols('2454.TW', from = '2019-01-01', to = '2021-10-14')
+Mediatek <- get("2454.TW") 
+plot(Cl(Mediatek), col='blue')  # 折線圖
+chartSeries(Mediatek, theme='white.mono')  # K線圖
+chartSeries(Mediatek['2019-12-01::2020-03-02',], theme='white', name='聯發科', up.col='red',dn.col='green')  # K線圖
+
+chartSeries(Mediatek, theme='white', TA= NULL, name='聯發科', up.col='red', dn.col='green')  # K線圖
+addTA(runMean(Mediatek[,4], n=20), on=1, col="blue")  # 移動平均值(20日)
+addTA(runMean(Mediatek[,4], n=120), on=1, col="red")  # 移動平均值(120日)
+
+
+
+# 黃金交叉: 短天期均線向上與長天期交叉(可以買)
+# 死亡交叉: 短天期均線向下與長天期交叉(可以賣)
+#台積電2330
+getSymbols('2330.TW', from='2019-03-26', to = '2021-10-06')  
+TSMC <-get('2330.TW')
+chartSeries(TSMC["2019-03-26::2021-03-26",], TA=NULL, theme='white', up.col='red', dn.col='green')  # K線圖
+addTA(runMean(TSMC["2019-03-26::2021-03-26",4], n=5), on=1, col="blue")  # 移動平均值(5日)
+addTA(runMean(TSMC["2019-03-26::2021-03-26",4], n=20), on=1, col="red")  # 移動平均值(20日)
+
+chartSeries(TSMC["2019-03-26::2021-03-26",], TA=NULL, theme='white', up.col='red', dn.col='green')  # K線圖
+addTA(runMean(TSMC["2019-03-26::2021-03-26",4], n=20), on=1, col="blue")  # 移動平均值(20日)
+addTA(runMean(TSMC["2019-03-26::2021-03-26",4], n=60), on=1, col="red")  # 移動平均值(60日)
+
+
+
+#美國道瓊(代碼：DJI)，台灣加權(代碼：TWII)，新加坡海峽(代碼：STI)，香港恆生(代碼：HSI)
+getSymbols(c("^DJI", "^TWII", "^HSI"), src="yahoo", from="2019-12-01")
+m1 <- merge(dailyReturn(Ad(TWII)), dailyReturn(Ad(DJI)), dailyReturn(Ad(HSI)), all = F)  # 每日回報值
+colnames(m1) <- c("Dow Jones", "Taiwan", "HangSeng")
+charts.PerformanceSummary(m1, event.labels = T, main = "Performance Summary")
+
+
+
+# EDHEC(風險對沖基金風格指數)
+data(edhec)
+charts.PerformanceSummary(edhec[,c(1,13)])
+
+
+
+# 產生迴歸係數
+x <- 1:10
+y <- -0.53 + 1.34*x
+e <- 1.2*rnorm(10)   # 誤差項
+for ( i in x ) {
+  y[i] <- y[i] + e[i]
+}
+cbind(x = x, y = y)
+cbind('Tom' = x, 'Merry' = y)
+plot(x, y, pch = 10, cex = 1.5, lwd = 2)  # 散佈圖
+
+
+# 迴歸係數矩陣
+X <- cbind(rep(1, 80), rnorm(80))
+beta <- matrix(c(1.2, -2.3), ncol = 1)
+y <- X %*% beta + 2*rnorm(80)
+theta <- rep(0, 2)
+eta <- 0.02
+iter <- 600
+m <- length(y)
+for (i in 1:iter) {
+  delta <- t(X) %*% (X %*% theta - y)
+  theta <- theta - (1/m)*eta*delta
+}
+print(theta)
+lm(y~X)
+plot(X[,2], y, xlim = c(-3, 3), ylim = c(-10, 10))  # 散佈圖
+
+
+# faithful
+fit = lm(eruptions~waiting, data=faithful)
+plot(faithful$waiting, faithful$eruptions, pch = 19)  # 散佈圖
+abline(fit$coef)
+abline(v = mean(faithful$waiting))
+abline(h = mean(faithful$eruptions))
+hist(faithful$waiting, prob = T)  # 直方圖
+lines(density(faithful$waiting))  # 密度曲線
+
+
+# cars
+plot(cars, main = "Stopping Distance versus Speed")
+lines(lowess(cars))  # 擬合曲線
+
+
+# 時間序列物件ts
+x = c(1,2,3,4,5,6,7,8,9,10,11,12)
+ts(x, start = 2016, frequency = 12)  # 從2016年開始，每月一次，共十二個月。
+ts(x, start = 2016, frequency = 4)  # 從2016年開始，每季一次，共三年。
+ts(x, start = c(2016,3), frequency = 4)  # 從第三季開始
+ts(x, start = 2016, frequency = 1)  # 從2016年開始，每年一次，共十二年。
+ts(x, start = c(2016,3), frequency = 12)  # 從3月開始
+
+#
+AirPassengers
+aggregate(AirPassengers)  # 摘要
+start(AirPassengers)  # 起始時間
+end(AirPassengers)  # 結束時間
+frequency(AirPassengers)  # 頻率
+xts.AP <- as.xts(AirPassengers)  # 把"ts"資料轉成"xts"+"zoo"資料
+plot(xts.AP,  # 折線圖
+     main = "Air Passengers",  # 圖表標題
+     major.ticks = 'years',  # 設定 x 軸主要時間刻度顯示的間隔
+     minor.ticks = NULL,  # 年與年之間是否顯示小刻度
+     grid.ticks.on = 'years',  # 格線
+     col = 'red')
+
+# 網路抓取資料fancy.dat
+fancy = scan("http://robjhyndman.com/tsdldata/data/fancy.dat")
+fancy = ts(fancy, frequency = 12, start = c(1987,1))  # 把"numeric"資料轉成"ts"資料
+xts.AP <- as.xts(log(fancy))  # 把"ts"資料轉成"xts"+"zoo"資料
+plot(xts.AP,  # 折線圖
+     main = "Sales Figures",  # 圖表標題
+     major.ticks = 'years',  # 設定 x 軸主要時間刻度顯示的間隔
+     minor.ticks = NULL,  # 年與年之間是否顯示小刻度
+     grid.ticks.on = 'years',  # 格線
+     col = 'red')
+
+# 網路抓取資料youbike_immediate.json
+youbike <- fromJSON('https://tcgbusfs.blob.core.windows.net/dotapp/youbike/v2/youbike_immediate.json')
+data.frame(youbike)  # 把"list"或"data.frame"資料轉成"data.frame"資料
+head(as.POSIXct(youbike$infoTime, format='%Y-%m-%d %H:%M:%S'))  # 把"character"資料轉成"POSIXct"+"POSIXt"資料
+
+
+# tui.csv
+tui = read.csv("C:/Users/user/Desktop/data/tui.csv",
+               sep = ";",
+               dec = ",",  #把資料逗號當句點(小數點)
+               header = T)
+tui[,'date'] = as.Date(as.character(tui[,'date']), format='%Y%m%d')  # 把"int"資料轉成"character"資料，再轉成"Date"資料
+tui.close = xts(tui['close'], order.by = tui[,'date'])  # 把"data.frame"資料轉成"xts"+"zoo"資料
+plot(tui.close)  # #折線圖
+
+
+
+# next
+x <- LETTERS[1:6]
+for ( i in x )
+{
+  if( i == 'D' )
+  {
+    next   # 跳過進一步評估，並開始迴圈的下一個迭代
+  }
+  else
+  {
+    print(i) 
+  }
+}
+
+
+# break
+for ( i in 1:6 ) {
+  if ( i == 4)
+  {
+    break
+  }
+  else
+  {
+    print(i)
+  }
+}
+
+
+# switch
+switch(c(2),
+      'Guten Morgen',
+      'Guten Tag',
+      'Guten Abend',
+      'Gute Nacht')
+
+
+# stop
+if (x < 0)
+{
+  stop('x can not be negative.')
+}
+
+
+# ifelse
+ifelse(any(x < 0), 'x contains negative numbers.', 'x are all positive.')
+
+
+# 1, 2, ..., 10
+i = 0
+repeat
+{
+  i = i + 1
+  print(i)
+  if (i == 10)
+  {
+    break
+  }
+}
+
+
+# 4, 8, 12
+i = 0
+while ( i <= 10 )
+{
+  i = i + 4
+  print(i)
+}
+
+
+# 每一小時價格33元，輸入小時數，求總價，若消費超過1000元，打九折。
+cat("請輸入小時數:")
+hours = scan()
+total <- function(hours, unit.price = 33) {
+         total.price <- hours * unit.price
+         if (total.price > 1000) {
+             total.price <- total.price * 0.9
+		 }
+         return(total.price)
+}
+total(hours)  # 30小時，每小時33元，30*33=990元  # 40小時，每小時33元，40*33=1320*0.9=1188元
+
+
+
+
+
+# Fibonacci 費波娜西數列：後一個數值為前面兩個數值相加  # 1 1 2 3 5 8 13 21 ...  # 相鄰兩項相除會接近1.618 黃金比例數
+x = c(1, 1)
+for (i in 3:10) {
+  x[i] = x[i-1] + x[i-2]
+}
+print(x)
+
+
+# Fibonacci 費波娜西數列
+f <- c(0, 1, numeric(7))
+i <- 3
+while (i < 10) {
+  f[i] <- f[i-1] + f[i-2]
+  i <- i + 1
+} 
+print(f)
+
+
+# Fibonacci 費波娜西數列
+f <- c(0, 1, numeric(7))
+i <- 3
+repeat {
+  f[i] <- f[i-1] + f[i-2]
+  i <- i + 1
+  if (i >= 10)
+  {
+    break  # 跳出迴圈
+  }
+}
+print(f)
+
+
+
+
+
+# 黃金比例1.618
+fib = c(1, 1)
+for (i in 3:100) {
+  tmp = fib[i-1] + fib[i-2]
+  fib = c(fib, tmp)
+  gold_ratio = fib[i]/fib[i-1]
+}
+print(gold_ratio)
+
+
+
+
+
+# 計算理論收斂值並逼近收斂值1.414214
+x = numeric(1000)
+x[1] = 1
+for (i in 2:1000) {
+  x[i] = x[i-1]/2 + 1/x[i-1]
+}
+tail(x)
+
+
+# 計算理論收斂值並逼近收斂值1.414214
+z = 1
+epsilon = 0.000001
+while(abs(z - sqrt(2)) > epsilon) {
+  z = z/2 + 1/z
+}
+print(z)
+
+
+# 計算理論收斂值並逼近收斂值1.414214
+x = 1
+tol = 0.000001
+do = TRUE
+while(do) {
+  x = x/2 + 1/x
+  if (abs(x-sqrt(2)) < tol)
+  {
+    do = FALSE
+  }
+}
+print(x)
+
+
+
+
+
+# 牛頓法求根（Newton Method）
+a = function(x) (x^4-6*x^3-13*x^2+52*x+20)/100
+der.a = function(x) (4*x^3-18*x^2-26*x+52)/100  # 微分
+x = 1.5
+for (i in 1:200) {
+  x = x - a(x)/der.a(x)
+}
+print(x)
+
+
+# 牛頓法求根（Newton Method）
+f = function(x, a=13) x^2-a
+g = function(x) 2*x  # 微分
+xold = 2
+repeat {
+  x = xold-f(xold)/g(xold)
+  if(abs(x-xold) < 1e-6)
+  {
+    break
+  }
+  xold = x
+}
+print(x)
+
+
+# 牛頓法求根（Newton Method）
+NewtonMethod = function(f1, f2, start, tol = 1e-6)
+{
+  xold = start
+  repeat
+  {
+    x = xold-f(xold)/g(xold)
+    if (abs(x-xold) < 1e-6)
+    {
+      break
+    }
+    xold = x
+  }
+  return(x)
+}
+f = function(x, a=13) x^2-a
+g = function(x) 2*x  # 微分
+NewtonMethod(f, g, 2)
+
+
+# 牛頓法求根（Newton Method）
+f1 = function(x) 3*x^2+4*x
+f2 = function(x) 6*x+4
+xold = -1  # xold = 0.5
+do = TRUE
+while (do) {
+  x = xold-f1(xold)/f2(xold)
+  if (abs(x-xold) < 1e-6)
+  {
+    do = FALSE
+  }
+  xold = x
+}
+print(xold)
+
+
+# 牛頓法求根（Newton Method）
+NewtonRaphson = function(f1, f2, xold = -1, do = TRUE, eps = 1e-6)
+{
+  start = xold
+  while (do)
+  {
+    x = xold-f1(xold)/f2(xold)
+    if ( abs(x-xold) < 1e-6)
+    {
+      do = FALSE
+    }
+    xold = x
+  }
+  return(list(start, xold))
+}
+f1 = function(x) 3*x^2+4*x
+f2 = function(x) 6*x+4  # 微分
+NewtonRaphson(f1, f2, -1)
+
+
+
+
+
+# 二分法求根（Bisection Method）
+f = function(x) exp(-x)*(3.2*sin(x)-0.5*cos(x))
+a = 3
+b = 4
+tol = 1
+while (tol > 0.001) {
+  m = mean(c(a, b))
+  if (f(a)*f(m) < 0)
+  {
+    b = m
+  }else
+  {
+    a = m 
+  }
+  tol = (b-a)/2
+}
+print(tol)
+
+
+# 二分法求根（Bisection Method）
+f = function(x) x^3+2*x^2-7
+a = 0
+b = 2
+start = 1.3
+do = TRUE
+eps = tol = 1e-6
+while(do) {
+  m = (a+b)/2
+  if (f(a)*f(m) < 0)
+  {
+    b = m
+  }else
+  {
+    a = m 
+  }
+  if((abs(b-a) < tol) & (abs(f(m) < eps)))
+  {
+    do = FALSE
+  }
+}
+print(m)
+
+
+# 二分法求根（Bisection Method）
+f = function(x) x^3+2*x^2-7
+a = 0
+b = 2
+start = 1.3
+tol = 1e-6
+eps = 1e-7
+repeat {
+  c = (a+b)/2
+  if(f(a)*f(c)<0)
+  {
+    b = c
+  }else
+  {
+    a = c
+  }
+  if((abs(b-a)<tol)&(abs(f(c))<eps))
+  {
+    break
+  }
+}
+print(c)
+
+
+# 二分法求根（Bisection Method）
+BisectRoot = function(f, a=0, b=2, tol = 1e-6, eps = 1e-7) {
+  repeat
+  {
+    m = (a+b)/2
+    if (f(a)*f(m)<0)
+    {
+      b=m
+    }else
+    {
+      a=m
+    }
+    do = (abs(b-a) < tol) & (abs(f(m)) < eps)
+    if (do)
+    {
+      break
+    }
+  }
+  return(m)
+}
+args(BisectRoot)
+g = function(x) x^3+2*x^2-7
+BisectRoot(g)
+
+
+
+
+
+# 平方根（DoubleSquared）
+c = 3
+DoubleSquared = function(c, start = 1, tol = 0.0001) {
+  x = start
+  do = TRUE
+  while (do)
+  {
+    tmp = 0.5*(x+c/x)
+    if(abs(tmp-x)>tol)
+    {
+      x = tmp
+    }else
+    {
+      do = FALSE
+    }
+  }
+  return(x)
+}
+DoubleSquared(2)
+DoubleSquared(3)
+DoubleSquared(4)
+
+
+
+
