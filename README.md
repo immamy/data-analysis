@@ -1,20 +1,10 @@
 # Data Analysis
-These projects demonstrate web scraping and data analysis using Python.
-The repository includes the source code and output results such as images and .csv files.
+These projects focus on data analysis using Python, R.
 
-Technology: **Python, Requests, Selenium, Pandas, Matplotlib, Jieba**
-
-## Python Web Scraping Projects
-Developed multiple Python web scraping projects to collect and analyze online data.
-
-## Features
-- Built PTT comment crawler and generated word cloud using jieba and pandas.
-- Scraped interior design case image URLs and exported structured data to CSV.
-- Automated dynamic website data extraction using Selenium.
-- Implemented data visualization using matplotlib.
+Technology: **Python, R**
+Development Tools: **VSCode, Anaconda, RStudio**
 
 ## Projects
-- [Google News](https://github.com/immamy/data-analysis/tree/main/web-crawler-projects-Google-News)
-- [Order](https://github.com/immamy/data-analysis/tree/main/web-crawler-projects-Order)
-- [PTT](https://github.com/immamy/data-analysis/tree/main/web-crawler-projects-PTT)
-- [HiLife](https://github.com/immamy/data-analysis/tree/main/web-crawler-projects-HiLife)
+- [Python Web Scraping](https://github.com/immamy/data-analysis/tree/main/Python Web Scraping)
+- [Python Data Analysis](https://github.com/immamy/data-analysis/tree/main/Python Data Analysis)
+- [R Data Analysis](https://github.com/immamy/data-analysis/tree/main/R Data Analysis)
