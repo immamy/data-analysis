@@ -10,10 +10,10 @@ Technology: **Python, Anaconda, NumPy, Pandas**
 - data visualization using Python
 
 ## Summary
-- list() 列表 list
-- dict() 字典 dictionary
-- np.array() 陣列 array
-- pd.Series() 索引 index
-- pd.DataFrame() 資料框 DataFrame
-- pd.read_csv() 讀取檔案 Read the file
-- plot() 圖表分析 Chart Analysis
+- list() 👉🏼 列表 list
+- dict() 👉🏼 字典 dictionary
+- np.array() 👉🏼 陣列 array
+- pd.Series() 👉🏼 索引 index
+- pd.DataFrame() 👉 資料框 DataFrame
+- pd.read_csv() 👉 讀取檔案 Read the file
+- plot() 👉 圖表分析 Chart Analysis
